@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
+using MongoDB.Bson;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Output;
 using TestResultRepoData;
 
@@ -20,7 +23,7 @@ namespace TestResultRepoAPI.Controllers
             {
                 Content = new StringContent(response, System.Text.Encoding.UTF8, "application/string")
             };
-        }
+        }      
 
         [HttpGet]
         [Route("testruns")]
@@ -43,6 +46,51 @@ namespace TestResultRepoAPI.Controllers
             return new HttpResponseMessage()
             {
                 Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+            };
+        }
+
+        [HttpPost]
+        [Route("testrun/save")]
+        public HttpResponseMessage SaveTestRun(JObject jsonBody)
+        {
+            string responseText;
+
+            try
+            {
+                var testRun = jsonBody.ToObject<TestRun>();
+
+                MongoDb.SaveTestRun(testRun);
+                responseText = "Saved successfully";
+            }
+            catch (Exception e)
+            {
+                responseText = "Something went wrong:\n" + e;
+            }
+
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(responseText, System.Text.Encoding.UTF8, "application/string")
+            };
+        }
+
+        [HttpDelete]
+        [Route("testrun/delete/{id}")]
+        public HttpResponseMessage DeleteTestRunById(string id)
+        {
+            string responseMessage = "OK";
+
+            try
+            {
+                MongoDb.DeleteTestRunById(id);
+            }
+            catch (Exception e)
+            {
+                responseMessage = "Something went wrong:\n" + e;
+            }
+            
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(responseMessage, System.Text.Encoding.UTF8, "application/string")
             };
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace TestResultRepoData
 {
@@ -26,6 +27,7 @@ namespace TestResultRepoData
 
         //[BsonElement("testrun")]
         [BsonIgnore]
+        [JsonIgnore]
         public TestRun TestRun { get; set; }
 
         [BsonElement("testrun")]

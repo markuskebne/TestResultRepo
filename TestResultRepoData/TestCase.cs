@@ -1,9 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace TestResultRepoData
 {
     public class TestCase : TestBase
     {
+        public TestCase()
+        {
+        }
+
         [BsonElement("description")]
         public string Description { get; set; }
 
@@ -18,6 +24,7 @@ namespace TestResultRepoData
 
         //[BsonElement("testsuite")]
         [BsonIgnore]
+        [JsonIgnore]
         public TestSuite TestSuite { get; set; }
 
         [BsonElement("testsuite")]

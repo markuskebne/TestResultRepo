@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TestResultRepoData;
 
 namespace Output
@@ -8,12 +9,11 @@ namespace Output
     {
         public static void OutputToJson(TestRun testRun)
         {
-            using (StreamWriter file = File.CreateText(@"C:\temp\testresultrepo\jsonOutput.txt"))
+            using (StreamWriter file = File.CreateText(@"C:\temp\reportunit\jsonOutput.txt"))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, testRun);
             }
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
 using TestResultRepoData;
 
@@ -23,7 +24,7 @@ namespace Output
                 }
                 Save(testSuite);
             }
-            Save(testRun);
+            Save(testRun);       
         }
 
         public static void Save(TestRun testRun)
@@ -54,6 +55,58 @@ namespace Output
             IMongoCollection<TestCase> dbCollection = db.GetCollection<TestCase>(testCaseCollectionName);
 
             dbCollection.InsertOne(testCase);
+        }
+        #endregion
+
+        #region Delete Data
+        public static void DeleteTestRunById(string testRunId)
+        {
+            TestRun testRun = GetTestRunWithChildren(testRunId);
+
+            foreach (var testSuite in testRun.TestSuites)
+            {
+                foreach (var testCase in testSuite.TestCases)
+                {
+                    Delete(testCase);
+                }
+                Delete(testSuite);
+            }
+            Delete(testRun);
+        }
+
+        public static void Delete(TestRun testRun)
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+
+            IMongoCollection<TestRun> dbCollection = db.GetCollection<TestRun>(testRunCollectionName);
+            var filter = Builders<TestRun>.Filter.Eq("_id", testRun._Id);
+
+            dbCollection.DeleteOne(filter);
+        }
+
+        public static void Delete(TestSuite testSuite)
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+
+            IMongoCollection<TestSuite> dbCollection = db.GetCollection<TestSuite>(testSuiteCollectionName);
+
+            var filter = Builders<TestSuite>.Filter.Eq("_id", testSuite._Id);
+
+            dbCollection.DeleteOne(filter);
+        }
+
+        public static void Delete(TestCase testCase)
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+
+            IMongoCollection<TestCase> dbCollection = db.GetCollection<TestCase>(testCaseCollectionName);
+
+            var filter = Builders<TestCase>.Filter.Eq("_id", testCase._Id);
+
+            dbCollection.DeleteOne(filter);
         }
         #endregion
 
@@ -232,6 +285,38 @@ namespace Output
             var result = dbCollection.Find(filter).ToList();
 
             return result;
+        }
+        #endregion
+
+        #region Helper Methods
+        public static TestRun GetTestRunWithChildren(string id)
+        {
+            TestRun testRun = GetTestRunById(id).FirstOrDefault();
+
+            foreach (var testSuiteId in testRun.TestSuiteIds)
+            {
+                var testSuite = GetTestSuiteById(testSuiteId).FirstOrDefault();
+                foreach (var testCaseId in testSuite.TestCaseIds)
+                {
+                    testSuite.TestCases.Add(GetTestCaseById(testCaseId).FirstOrDefault());
+                }
+
+                testRun.TestSuites.Add(testSuite);
+            }
+
+            return testRun;
+        }
+
+        public static TestSuite GetTestSuiteWithChildren(string id)
+        {
+            var testSuite = GetTestSuiteById(id).FirstOrDefault();
+
+            foreach (var testCaseId in testSuite.TestCaseIds)
+            {
+                testSuite.TestCases.Add(GetTestCaseById(testCaseId).FirstOrDefault());
+            }          
+
+            return testSuite;
         }
         #endregion
 
