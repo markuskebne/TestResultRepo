@@ -1,0 +1,14 @@
+﻿@using TestResultRepoData
+
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All</h2>
+<ul>
+    @foreach (var testRun in ViewBag.testRuns as ICollection<TestRun>)
+    {
+        <li>@testRun._Id</li>
+    }
+</ul>
+
