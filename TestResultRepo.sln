@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoIO", "Output\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoAPI", "TestResultRepoAPI\TestResultRepoAPI.csproj", "{D05F7DD3-39B3-4D8A-8A56-79D7A792E986}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoWebSite", "TestResultRepoWebSite\TestResultRepoWebSite.csproj", "{2A090679-6342-4B13-B031-23EB3AA62738}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D05F7DD3-39B3-4D8A-8A56-79D7A792E986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D05F7DD3-39B3-4D8A-8A56-79D7A792E986}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D05F7DD3-39B3-4D8A-8A56-79D7A792E986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A090679-6342-4B13-B031-23EB3AA62738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A090679-6342-4B13-B031-23EB3AA62738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A090679-6342-4B13-B031-23EB3AA62738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A090679-6342-4B13-B031-23EB3AA62738}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
