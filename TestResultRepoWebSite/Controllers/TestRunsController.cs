@@ -60,8 +60,20 @@ namespace TestResultRepoWebSite.Controllers
                     var json = response.Content.ReadAsStringAsync().Result;
                     testRun = JsonConvert.DeserializeObject<List<TestRun>>(json).FirstOrDefault();
 
+                    ViewBag.testRun = testRun;
                     ViewBag.Message = "Here is the TestRun you were looking for:";
                     ViewBag.TestRunId = Id;
+
+                    var totalTestsRun = testRun.TestCaseCount - testRun.Skipped;
+                    double passedPercent = ((double)testRun.Passed / totalTestsRun)*100;
+                    double failedPercent = ((double)testRun.Failed / totalTestsRun)*100;
+                    double inconclusivePercent = ((double)testRun.Inconclusive / totalTestsRun)*100;
+
+                    ViewBag.totalTestsRun = totalTestsRun.ToString();
+                    ViewBag.passedPercent = passedPercent.ToString("N2").Replace(",", ".");
+                    ViewBag.failedPercent = failedPercent.ToString("N2").Replace(",", ".");
+                    ViewBag.inconclusivePercent = inconclusivePercent.ToString("N2").Replace(",", ".");
+
                     if (testRun != null) ViewBag.TestRunName = testRun.Name;
                 }
                 else
