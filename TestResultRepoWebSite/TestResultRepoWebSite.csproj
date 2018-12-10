@@ -201,6 +201,8 @@
     <Content Include="Views\TestRun\Index.cshtml" />
     <Content Include="Views\TestSuite\Index.cshtml" />
     <Content Include="Views\TestRun\All.cshtml" />
+    <Content Include="Views\TestSuite\All.cshtml" />
+    <Content Include="Views\TestCase\All.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

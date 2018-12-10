@@ -4,11 +4,16 @@
     ViewBag.Title = "All";
 }
 
-<h2>All</h2>
+<h2>
+    <a href="/">TestRun</a>
+</h2>
 <ul>
     @foreach (var testRun in ViewBag.testRuns as ICollection<TestRun>)
     {
-        <li>@testRun._Id</li>
+        <li>
+            <a href="?id=@testRun._Id">@testRun._Id</a>
+        </li>
+       
     }
 </ul>
 

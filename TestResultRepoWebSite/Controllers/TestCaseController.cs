@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using TestResultRepoData;
+using TestResultRepoData;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -19,6 +20,34 @@ namespace TestResultRepoWebSite.Controllers
         // GET: TestCase
         public async Task<ActionResult> Index(string Id)
         {
+            if (Id == null)
+            {
+                List<TestCase> testCases = null;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.GetAsync($"api/testcases");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = response.Content.ReadAsStringAsync().Result;
+                        testCases = JsonConvert.DeserializeObject<List<TestCase>>(json);
+
+                        ViewBag.Message = "Here are the TestRuns you were looking for:";
+                        ViewBag.testCases = testCases;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No such TestRun found.";
+                    }
+                }
+
+                return View("All");
+            }
+
             TestCase testCase = null;
             using (var client = new HttpClient())
             {

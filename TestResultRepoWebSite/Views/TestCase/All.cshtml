@@ -1,0 +1,18 @@
+﻿@using TestResultRepoData
+
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>
+    <a href="/">TestCase</a>
+</h2>
+<ul>
+    @foreach (var testCase in ViewBag.testCases as ICollection<TestCase>)
+    {
+        <li>
+            <a href="?id=@testCase._Id">@testCase._Id</a>
+        </li>
+
+    }
+</ul>

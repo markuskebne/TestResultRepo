@@ -19,6 +19,34 @@ namespace TestResultRepoWebSite.Controllers
         // GET: TestRun
         public async Task<ActionResult> Index(string Id)
         {
+            if (Id == null)
+            {
+                List<TestRun> testRuns = null;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(Baseurl);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    HttpResponseMessage response = await client.GetAsync($"api/testruns");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = response.Content.ReadAsStringAsync().Result;
+                        testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json);
+
+                        ViewBag.Message = "Here are the TestRuns you were looking for:";
+                        ViewBag.testRuns = testRuns;
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No such TestRun found.";
+                    }
+                }
+
+                return View("All");
+            }
+
             TestRun testRun = null;
             using (var client = new HttpClient())
             {
@@ -44,35 +72,5 @@ namespace TestResultRepoWebSite.Controllers
 
             return View();
         }
-
-        // GET: TestRun/All
-        public async Task<ActionResult> All()
-        {
-            List<TestRun> testRuns = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync($"api/testruns");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = response.Content.ReadAsStringAsync().Result;
-                    testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json);
-
-                    ViewBag.Message = "Here are the TestRuns you were looking for:";
-                    ViewBag.testRuns = testRuns;
-                }
-                else
-                {
-                    ViewBag.Message = "No such TestRun found.";
-                }
-            }
-
-            return View();
-        }
-
     }
 }
