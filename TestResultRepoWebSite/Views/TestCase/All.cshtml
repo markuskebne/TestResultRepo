@@ -7,12 +7,22 @@
 <h2>
     <a href="/">TestCase</a>
 </h2>
-<ul>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Result</th>
+
+    </tr>
     @foreach (var testCase in ViewBag.testCases as ICollection<TestCase>)
     {
-        <li>
-            <a href="?id=@testCase._Id">@testCase._Id</a>
-        </li>
-
+        <tr>
+            <td>
+                <a href="?id=@testCase.Name">@testCase.Name</a>
+            </td>
+            <td>@testCase.StartTime</td>
+            <td>@testCase.Result</td>
+        </tr>
     }
-</ul>
+</table>

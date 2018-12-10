@@ -5,15 +5,28 @@
 }
 
 <h2>
-    <a href="/">TestRun</a>
+    <a href="/">TestRuns</a>
 </h2>
-<ul>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Passed</th>
+        <th>Failed</th>
+    </tr>
     @foreach (var testRun in ViewBag.testRuns as ICollection<TestRun>)
     {
-        <li>
-            <a href="?id=@testRun._Id">@testRun._Id</a>
-        </li>
-       
+        <tr>
+            <td>
+                <a href="?id=@testRun.Name">@testRun.Name</a>
+            </td>
+            <td>@testRun.StartTime</td>
+            <td>@testRun.Result</td>
+            <td>@testRun.Passed</td>
+            <td>@testRun.Failed</td>
+        </tr>
     }
-</ul>
+</table>
 

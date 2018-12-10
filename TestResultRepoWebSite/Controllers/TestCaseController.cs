@@ -34,7 +34,7 @@ namespace TestResultRepoWebSite.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         var json = response.Content.ReadAsStringAsync().Result;
-                        testCases = JsonConvert.DeserializeObject<List<TestCase>>(json);
+                        testCases = JsonConvert.DeserializeObject<List<TestCase>>(json).OrderBy(x => x.Name).ToList(); ;
 
                         ViewBag.Message = "Here are the TestRuns you were looking for:";
                         ViewBag.testCases = testCases;

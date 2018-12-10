@@ -1,0 +1,32 @@
+﻿@using TestResultRepoData
+
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>
+    <a href="/">TestSuite</a>
+</h2>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Result</th>
+        <th>Passed</th>
+        <th>Failed</th>
+    </tr>
+    @foreach (var testSuite in ViewBag.testSuites as ICollection<TestSuite>)
+    {
+        <tr>
+            <td>
+                <a href="?id=@testSuite.Name">@testSuite.Name</a>
+            </td>
+            <td>@testSuite.StartTime</td>
+            <td>@testSuite.Result</td>
+            <td>@testSuite.Passed</td>
+            <td>@testSuite.Failed</td>
+        </tr>
+    }
+</table>
+
