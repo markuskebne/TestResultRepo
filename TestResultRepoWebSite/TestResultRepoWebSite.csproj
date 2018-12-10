@@ -148,9 +148,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TestCaseController.cs" />
-    <Compile Include="Controllers\TestRunController.cs" />
-    <Compile Include="Controllers\TestSuiteController.cs" />
+    <Compile Include="Controllers\TestCasesController.cs" />
+    <Compile Include="Controllers\TestRunsController.cs" />
+    <Compile Include="Controllers\TestSuitesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,12 +197,12 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\TestCase\Index.cshtml" />
-    <Content Include="Views\TestRun\Index.cshtml" />
-    <Content Include="Views\TestSuite\Index.cshtml" />
-    <Content Include="Views\TestRun\All.cshtml" />
-    <Content Include="Views\TestSuite\All.cshtml" />
-    <Content Include="Views\TestCase\All.cshtml" />
+    <Content Include="Views\TestCases\Index.cshtml" />
+    <Content Include="Views\TestRuns\Index.cshtml" />
+    <Content Include="Views\TestSuites\Index.cshtml" />
+    <Content Include="Views\TestRuns\All.cshtml" />
+    <Content Include="Views\TestSuites\All.cshtml" />
+    <Content Include="Views\TestCases\All.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

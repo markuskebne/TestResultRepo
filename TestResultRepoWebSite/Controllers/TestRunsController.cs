@@ -9,35 +9,34 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using TestResultRepoData;
-using TestResultRepoData;
 
 namespace TestResultRepoWebSite.Controllers
 {
-    public class TestCaseController : Controller
+    public class TestRunsController : Controller
     {
         string Baseurl = ConfigurationManager.AppSettings["APIBaseUrl"];
 
-        // GET: TestCase
+        // GET: TestRun
         public async Task<ActionResult> Index(string Id)
         {
             if (Id == null)
             {
-                List<TestCase> testCases = null;
+                List<TestRun> testRuns = null;
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(Baseurl);
                     client.DefaultRequestHeaders.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage response = await client.GetAsync($"api/testcases");
+                    HttpResponseMessage response = await client.GetAsync($"api/testruns");
 
                     if (response.IsSuccessStatusCode)
                     {
                         var json = response.Content.ReadAsStringAsync().Result;
-                        testCases = JsonConvert.DeserializeObject<List<TestCase>>(json).OrderBy(x => x.Name).ToList(); ;
+                        testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json).OrderBy(x => x.Name).ToList(); ;
 
                         ViewBag.Message = "Here are the TestRuns you were looking for:";
-                        ViewBag.testCases = testCases;
+                        ViewBag.testRuns = testRuns;
                     }
                     else
                     {
@@ -48,28 +47,27 @@ namespace TestResultRepoWebSite.Controllers
                 return View("All");
             }
 
-            TestCase testCase = null;
+            TestRun testRun = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(Baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync($"api/testcase/{Id}");
+                HttpResponseMessage response = await client.GetAsync($"api/testrun/{Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = response.Content.ReadAsStringAsync().Result;
-                    testCase = JsonConvert.DeserializeObject<List<TestCase>>(json).FirstOrDefault();
+                    testRun = JsonConvert.DeserializeObject<List<TestRun>>(json).FirstOrDefault();
 
-                    ViewBag.Message = "Here is the TestCase you were looking for:";
-                    ViewBag.TestCaseId = Id;
-                    if (testCase != null) ViewBag.TestCaseName = testCase.Name;
+                    ViewBag.Message = "Here is the TestRun you were looking for:";
+                    ViewBag.TestRunId = Id;
+                    if (testRun != null) ViewBag.TestRunName = testRun.Name;
                 }
                 else
                 {
-                    ViewBag.Message = "No such TestCase found.";
+                    ViewBag.Message = "No such TestRun found.";
                 }
-
             }
 
             return View();
