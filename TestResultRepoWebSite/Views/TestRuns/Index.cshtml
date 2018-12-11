@@ -16,12 +16,12 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 text-center">
-            <h1>Result</h1>
+            <h1>@ViewBag.testRun.Result</h1>
         </div>
     </div>
 </div>
-<div class="progress" style="height: 100px;">
-    <div class="progress-bar bg-success" role="progressbar" style="width: @ViewBag.passedPercent%" aria-valuenow=@ViewBag.passedPercent aria-valuemin="0" aria-valuemax="100"></div>
-    <div class="progress-bar bg-danger" role="progressbar" style="width: @ViewBag.failedPercent%" aria-valuenow=@ViewBag.failedPercent aria-valuemin="0" aria-valuemax="100"></div>
-    <div class="progress-bar bg-warning" role="progressbar" style="width: @ViewBag.inconclusivePercent%" aria-valuenow=@ViewBag.inconclusivePercent aria-valuemin="0" aria-valuemax="100"></div>
+<div class="progress" style="height: 100px">
+    <div class="progress-bar bg-success" role="progressbar" style="width: @ViewBag.passedPercent%; line-height: 100px" aria-valuenow=@ViewBag.passedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Passed</div>
+    <div class="progress-bar bg-danger" role="progressbar" style="width: @ViewBag.failedPercent%; line-height: 100px" aria-valuenow=@ViewBag.failedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Failed</div>
+    <div class="progress-bar bg-warning" role="progressbar" style="width: @ViewBag.inconclusivePercent%; line-height: 100px" aria-valuenow=@ViewBag.inconclusivePercent aria-valuemin="0" aria-valuemax="100"></div>
 </div>
