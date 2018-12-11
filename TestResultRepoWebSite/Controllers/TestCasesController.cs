@@ -1,75 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using TestResultRepoData;
-using TestResultRepoData;
 
 namespace TestResultRepoWebSite.Controllers
 {
     public class TestCasesController : Controller
     {
-        string Baseurl = ConfigurationManager.AppSettings["APIBaseUrl"];
-
         // GET: TestCase
-        public async Task<ActionResult> Index(string Id)
+        public async Task<ActionResult> Index(string id)
         {
-            if (Id == null)
+            // Return the listview if no id is provided
+            if (id == null)
             {
-                List<TestCase> testCases = null;
-                using (var client = new HttpClient())
+                var testCases = await HelperMethods.TestResultRepoApiHelper.GetAllTestCases();
+                if (testCases != null)
                 {
-                    client.BaseAddress = new Uri(Baseurl);
-                    client.DefaultRequestHeaders.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.GetAsync($"api/testcases");
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var json = response.Content.ReadAsStringAsync().Result;
-                        testCases = JsonConvert.DeserializeObject<List<TestCase>>(json).OrderBy(x => x.Name).ToList(); ;
-
-                        ViewBag.Message = "Here are the TestRuns you were looking for:";
-                        ViewBag.testCases = testCases;
-                    }
-                    else
-                    {
-                        ViewBag.Message = "No such TestRun found.";
-                    }
-                }
-
-                return View("All");
-            }
-
-            TestCase testCase = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync($"api/testcase/{Id}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = response.Content.ReadAsStringAsync().Result;
-                    testCase = JsonConvert.DeserializeObject<List<TestCase>>(json).FirstOrDefault();
-
-                    ViewBag.Message = "Here is the TestCase you were looking for:";
-                    ViewBag.TestCaseId = Id;
-                    if (testCase != null) ViewBag.TestCaseName = testCase.Name;
+                    ViewBag.Message = "Here are the TestCases you were looking for:";
+                    ViewBag.testCases = testCases;
                 }
                 else
                 {
                     ViewBag.Message = "No such TestCase found.";
                 }
 
+                return View("All");
+            }
+
+            // Return the index view if id is provided
+            var testCase = await HelperMethods.TestResultRepoApiHelper.GetTestCase(id);
+            if (testCase != null)
+            {
+                ViewBag.testCase = testCase;
+                ViewBag.Message = "Here is the TestCase you were looking for:";
+                ViewBag.TestCaseId = id;
+
+                ViewBag.TestCaseName = testCase.Name;
+            }
+            else
+            {
+                ViewBag.Message = "No such TestCase found.";
             }
 
             return View();
