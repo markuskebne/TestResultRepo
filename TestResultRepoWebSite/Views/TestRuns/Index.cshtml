@@ -1,9 +1,10 @@
-﻿
+﻿@using TestResultRepoData
+
 @{
     ViewBag.Title = "Index";
 }
 
-<div class="container">
+<div class="container" style="margin-top: 50px">
     <div class="row">
         <div class="col-sm-6 text-center">
             <h3>@ViewBag.testRun.Name</h3>
@@ -20,8 +21,25 @@
         </div>
     </div>
 </div>
-<div class="progress" style="height: 100px">
-    <div class="progress-bar bg-success" role="progressbar" style="width: @ViewBag.passedPercent%; line-height: 100px" aria-valuenow=@ViewBag.passedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Passed</div>
-    <div class="progress-bar bg-danger" role="progressbar" style="width: @ViewBag.failedPercent%; line-height: 100px" aria-valuenow=@ViewBag.failedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Failed</div>
-    <div class="progress-bar bg-warning" role="progressbar" style="width: @ViewBag.inconclusivePercent%; line-height: 100px" aria-valuenow=@ViewBag.inconclusivePercent aria-valuemin="0" aria-valuemax="100"></div>
+<div class="container" style="margin-bottom: 15px">
+    <div class="progress" style="height: 100px">
+        <div class="progress-bar bg-success" role="progressbar" style="width: @ViewBag.passedPercent%; line-height: 100px" aria-valuenow=@ViewBag.passedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Passed</div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: @ViewBag.failedPercent%; line-height: 100px" aria-valuenow=@ViewBag.failedPercent aria-valuemin="0" aria-valuemax="100">@ViewBag.testRun.Failed</div>
+        <div class="progress-bar bg-warning" role="progressbar" style="width: @ViewBag.inconclusivePercent%; line-height: 100px" aria-valuenow=@ViewBag.inconclusivePercent aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 </div>
+<div class="card-columns" style="column-count: 6">
+    @foreach (var id in ViewBag.testRun.TestSuiteIds as ICollection<string>)
+    {
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">@id</div>
+            <div class="card-body">
+                <h4 class="card-title">Success card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    }
+</div>
+
+
+
