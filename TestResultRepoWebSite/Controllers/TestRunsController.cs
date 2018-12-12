@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using TestResultRepoData;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -26,7 +29,7 @@ namespace TestResultRepoWebSite.Controllers
             }
 
             // Return the index view if id is provided
-            var testRun = await HelperMethods.TestResultRepoApiHelper.GetTestRun(id);
+            var testRun = await HelperMethods.TestResultRepoApiHelper.GetTestRunWithChildren(id);
 
             if (testRun != null)
             {
@@ -45,6 +48,18 @@ namespace TestResultRepoWebSite.Controllers
                 ViewBag.inconclusivePercent = inconclusivePercent.ToString("N2").Replace(",", ".");
 
                 ViewBag.TestRunName = testRun.Name;
+                //switch (testRun.Result)
+                //{
+                //    case Result.Passed:
+                //        ViewBag.ResultColorClass = "bg-success";
+                //        break;
+                //    case Result.Failed:
+                //        ViewBag.ResultColorClass = "bg-danger";
+                //        break;
+                //    default:
+                //        ViewBag.ResultColorClass = "bg-warning";
+                //        break;
+                //}
             }
 
             else
