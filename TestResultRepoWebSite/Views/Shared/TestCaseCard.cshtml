@@ -22,7 +22,10 @@
 
 <div id="@("accordion_" + idGuid)">
     <div class="card text-white mb-3">
-        <div class="card-header cardlisttext @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">@testcase.Name</div>
+        <div class="card-header cardlisttext @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+            <a href="/@("testcases?id=" + @testcase._Id)">@testcase.Name</a>
+
+        </div>
 
         <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
             <div class="card-body">
@@ -38,9 +41,6 @@
                         <p>@testcase.Failure.StackTrace</p>
                     }
                 </ul>
-                <div class="card-body">
-                    <a class="card-link" href="/@("testcases?id="+@testcase._Id)">Id: @testcase._Id</a>
-                </div>
             </div>
         </div>
     </div>

@@ -23,7 +23,9 @@
 
 <div id="@("accordion_" + idGuid)">
     <div class="card text-white mb-3">
-        <div class="card-header @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">@suite.Name</div>
+        <div class="card-header @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+            <a href="/@("testsuites?id=" + @suite._Id)">@suite.Name</a>
+        </div>
         <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
             <div class="card-body">
                 <ul class="list-group list-group-flush">
@@ -34,9 +36,6 @@
                     }
 
                 </ul>
-                <div class="card-body">
-                    <a class="card-link" href="/@("testsuites?id="+@suite._Id)">Id: @suite._Id</a>
-                </div>
             </div>
         </div>
     </div>
