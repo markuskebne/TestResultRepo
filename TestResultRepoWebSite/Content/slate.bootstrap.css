@@ -4929,7 +4929,7 @@ input[type="button"].btn-block {
 }
 
 .card-columns .card {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.2rem;
 }
 
 @media (min-width: 576px) {
@@ -4937,7 +4937,7 @@ input[type="button"].btn-block {
     -webkit-column-count: 3;
             column-count: 3;
     -webkit-column-gap: 1.25rem;
-            column-gap: 1.25rem;
+            column-gap: 0.2rem;
     orphans: 1;
     widows: 1;
   }
