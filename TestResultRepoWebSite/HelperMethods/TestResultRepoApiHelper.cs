@@ -146,5 +146,17 @@ namespace TestResultRepoWebSite.HelperMethods
 
             return testRun;
         }
+
+        public static async Task<TestSuite> GetTestSuiteWithChildren(string id)
+        {
+            var testsuite = await GetTestSuite(id);
+
+            foreach (var testCaseId in testsuite.TestCaseIds)
+            {
+                testsuite.TestCases.Add(await GetTestCase(testCaseId));
+            }
+            
+            return testsuite;
+        }
     }
 }

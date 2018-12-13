@@ -248,6 +248,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\Failure.cshtml" />
     <Content Include="Views\Shared\TestSuiteCard.cshtml" />
+    <Content Include="Views\Shared\TestCaseCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

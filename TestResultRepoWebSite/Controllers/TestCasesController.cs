@@ -40,7 +40,7 @@ namespace TestResultRepoWebSite.Controllers
                 ViewBag.Message = "No such TestCase found.";
             }
 
-            return View();
+            return View("TestCaseCard", testCase);
         }
     }
 }

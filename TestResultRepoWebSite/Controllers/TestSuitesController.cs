@@ -26,7 +26,7 @@ namespace TestResultRepoWebSite.Controllers
             }
 
             // Return the index view if id is provided
-            var testSuite = await HelperMethods.TestResultRepoApiHelper.GetTestSuite(id);
+            var testSuite = await HelperMethods.TestResultRepoApiHelper.GetTestSuiteWithChildren(id);
 
             if (testSuite != null)
             {
@@ -52,7 +52,7 @@ namespace TestResultRepoWebSite.Controllers
                 ViewBag.Message = "No such TestSuite found.";
             }
 
-            return View();
+            return View("TestSuiteCard", testSuite);
         }
     }
 }

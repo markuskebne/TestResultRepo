@@ -1,0 +1,47 @@
+﻿@using TestResultRepoData
+
+@{
+    TestCase testcase = @Model;
+    Guid idGuid = Guid.NewGuid();
+
+    string resultColor;
+}
+
+@switch (testcase.Result)
+{
+    case Result.Passed:
+        resultColor = "bg-success";
+        break;
+    case Result.Failed:
+        resultColor = "bg-danger";
+        break;
+    default:
+        resultColor = "bg-warning";
+        break;
+}
+
+<div id="@("accordion_" + idGuid)">
+    <div class="card text-white mb-3">
+        <div class="card-header cardlisttext @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">@testcase.Name</div>
+
+        <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+            <div class="card-body">
+
+                <ul class="list-group list-group-flush carddetailtext">
+                    @if (@testcase.Failure.Message != "")
+                    {
+                        <p>@testcase.Failure.Message</p>
+                    }
+
+                    @if (@testcase.Failure.StackTrace != "")
+                    {
+                        <p>@testcase.Failure.StackTrace</p>
+                    }
+                </ul>
+                <div class="card-body">
+                    <a class="card-link" href="/@("testcases?id="+@testcase._Id)">Id: @testcase._Id</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
