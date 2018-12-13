@@ -1,0 +1,59 @@
+﻿@using TestResultRepoData
+
+@{
+    TestSuite suite = @Model;
+    Guid idGuid = Guid.NewGuid();
+
+    string resultColor;
+    
+}
+
+@switch (suite.Result)
+{
+    case Result.Passed:
+        resultColor = "bg-success";
+        break;
+    case Result.Failed:
+        resultColor = "bg-danger";
+        break;
+    default:
+        resultColor = "bg-warning";
+        break;
+}
+
+<div id="@("accordion_" + idGuid)">
+        <div class="card text-white mb-3">
+            <div class="card-header @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">@suite.Name</div>
+
+            <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+
+                        @foreach (var testcase in suite.TestCases as ICollection<TestCase>)
+                        {
+                            string testresultColor;
+                            switch (testcase.Result)
+                            {
+                                case Result.Passed:
+                                    testresultColor = "bg-success";
+                                    break;
+                                case Result.Failed:
+                                    testresultColor = "bg-danger";
+                                    break;
+                                default:
+                                    testresultColor = "bg-warning";
+                                    break;
+                            }
+
+                            <li class="@testresultColor list-group-item cardlisttext">@testcase.Name</li>
+                        }
+
+                    </ul>
+                    <div class="card-body">
+                        <a class="card-link" href="/@("testsuites?id="+@suite._Id)">Id: @suite._Id</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

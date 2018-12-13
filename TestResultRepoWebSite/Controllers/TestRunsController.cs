@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoData;
@@ -60,6 +61,10 @@ namespace TestResultRepoWebSite.Controllers
                 //        ViewBag.ResultColorClass = "bg-warning";
                 //        break;
                 //}
+
+                ViewBag.temptestrun = testRun;
+                ViewBag.temptestsuite = testRun.TestSuites.FirstOrDefault();
+                ViewBag.temptestcase = testRun.TestSuites.FirstOrDefault().TestCases.FirstOrDefault();
             }
 
             else

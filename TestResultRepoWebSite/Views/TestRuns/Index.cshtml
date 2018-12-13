@@ -1,8 +1,9 @@
 ﻿@using TestResultRepoData
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index";    
 }
+
 <div class="@ViewBag.ResultColorClass">
     <div class="container" style="margin-top: 50px">
         <div class="row">
@@ -30,64 +31,12 @@
     </div>
     <div class="card-columns" style="column-count: 5">
         @{
-            int i = 1;
             foreach (var suite in ViewBag.testRun.TestSuites as ICollection<TestSuite>)
             {
-                string resultColor;
-
-                switch (suite.Result)
-                {
-                    case Result.Passed:
-                        resultColor = "bg-success";
-                        break;
-                    case Result.Failed:
-                        resultColor = "bg-danger";
-                        break;
-                    default:
-                        resultColor = "bg-warning";
-                        break;
-                }
-
-                <div id="@("accordion_" + i)">
-                    <div class="card text-white mb-3">
-                        <div class="card-header @resultColor" id="@("heading_" + i)" data-toggle="collapse" data-target="@("#collapse_" + i)" aria-expanded="true" aria-controls="@("#collapse_" + i)">@suite.Name</div>
-
-                        <div id="@("collapse_" + i)" class="collapse" aria-labelledby="@("heading_" + i)" data-parent="@("#accordion_" + i)">
-                            <div class="card-body">
-                                
-                                <ul class="list-group list-group-flush">
-
-                                    @foreach (var testcase in suite.TestCases as ICollection<TestCase>)
-                                    {
-                                        string testresultColor;
-                                        switch (testcase.Result)
-                                        {
-                                            case Result.Passed:
-                                                testresultColor = "bg-success";
-                                                break;
-                                            case Result.Failed:
-                                                testresultColor = "bg-danger";
-                                                break;
-                                            default:
-                                                testresultColor = "bg-warning";
-                                                break;
-                                        }
-
-                                        <li class="@testresultColor list-group-item cardlisttext">@testcase.Name</li>
-                                    }
-
-                                </ul>
-                                <div class="card-body">
-                                    <a class="card-link" href="/@("testsuites?id="+@suite._Id)">Id: @suite._Id</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                i++;
+                @Html.Partial("TestSuiteCard", suite)
             }
         }
-</div>
+    </div>
 </div>
 
 
