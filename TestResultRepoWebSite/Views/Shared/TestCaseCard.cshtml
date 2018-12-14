@@ -24,12 +24,13 @@
     <div class="card text-white">
         <div class="card-header cardlisttext @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
             <a href="/@("testcases?id=" + @testcase._Id)">@testcase.Name</a>
-
         </div>
-
+    @if (testcase.Result != Result.Passed)
+    {
         <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
             <div class="card-body">
-
+                
+                
                 <ul class="list-group list-group-flush carddetailtext">
                     @if (@testcase.Failure.Message != "")
                     {
@@ -43,5 +44,6 @@
                 </ul>
             </div>
         </div>
+    }
     </div>
 </div>

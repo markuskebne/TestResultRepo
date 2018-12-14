@@ -16,10 +16,11 @@ namespace TestResultRepoWebSite.Controllers
             if (id == null)
             {
                 var testRuns = await HelperMethods.TestResultRepoApiHelper.GetAllTestRuns();
+                List<TestRun> ordertestRuns = testRuns.OrderByDescending(run => run.StartTime).ToList();
                 if (testRuns != null)
                 {
                     ViewBag.Message = "Here are the TestRuns you were looking for:";
-                    ViewBag.testRuns = testRuns;
+                    ViewBag.testRuns = ordertestRuns;
                 }
                 else
                 {
