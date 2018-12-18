@@ -1,0 +1,52 @@
+﻿@using TestResultRepoData
+
+@{
+    var groups = @Model;
+    Guid idGuid;
+
+    int numberOfFailedTestCases;
+    int numberOfPassedTestCases;
+
+}
+
+@foreach (var group in groups as ICollection<GroupedTestSuites>)
+{
+    idGuid = Guid.NewGuid();
+    //numberOfFailedTestCases = group.TestSuites.Count(ts => ts.Result == Result.Failed);
+    //numberOfPassedTestCases = group.TestSuites.Count(ts => ts.Result == Result.Passed);
+
+
+    <div id="@("accordion_" + idGuid)">
+        <div class="card text-white">
+            <div class="card-header d-flex flex-row" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+                <div class="truncate ">
+                    @*<a href="/@("testsuites?id=" + @suite._Id)">@group.Name</a>*@
+                    <p>@group.Name</p>
+                </div>
+
+                @*@if (numberOfPassedTestCases > 0)
+                {
+                    <span class="badge badge-success ml-auto">@numberOfPassedTestCases</span>
+                }
+                @if (numberOfFailedTestCases > 0)
+                {
+                    <span class="badge badge-danger ml-auto">@numberOfFailedTestCases</span>
+                }*@
+            </div>
+            <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+
+                        @foreach (var suite in group.TestSuites as ICollection<TestSuite>)
+                        {
+                            @Html.Partial("TestSuiteCard", suite)
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
