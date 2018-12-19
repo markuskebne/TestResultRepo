@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using TestResultRepoData;
 
@@ -149,6 +150,19 @@ namespace Output
 
             return result;
         }
+
+        public static List<string> GetUniqueTestRunNames()
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+            IMongoCollection<TestRun> dbCollection = db.GetCollection<TestRun>(testRunCollectionName);
+
+            var filter = Builders<TestRun>.Filter.Empty;
+
+            var result = dbCollection.Distinct<string>("name", filter).ToList();
+
+            return result;
+        }
         #endregion
 
         #region TestSuite
@@ -214,6 +228,19 @@ namespace Output
             var filter = builder.And(builder.Eq("categories", category), builder.Eq("name", name));
 
             var result = dbCollection.Find(filter).ToList();
+
+            return result;
+        }
+
+        public static List<string> GetUniqueTestSuiteNames()
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+            IMongoCollection<TestSuite> dbCollection = db.GetCollection<TestSuite>(testSuiteCollectionName);
+
+            var filter = Builders<TestSuite>.Filter.Empty;
+
+            var result = dbCollection.Distinct<string>("name", filter).ToList();
 
             return result;
         }
@@ -286,6 +313,21 @@ namespace Output
 
             return result;
         }
+
+        public static List<string> GetUniqueTestCaseNames()
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+            IMongoCollection<TestCase> dbCollection = db.GetCollection<TestCase>(testCaseCollectionName);
+
+            var filter = Builders<TestCase>.Filter.Empty;
+
+            var result = dbCollection.Distinct<string>("name", filter).ToList();
+
+            return result;
+        }
+
+
         #endregion
 
         #region Helper Methods

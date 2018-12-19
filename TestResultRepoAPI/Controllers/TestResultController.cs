@@ -38,6 +38,18 @@ namespace TestResultRepoAPI.Controllers
         }
 
         [HttpGet]
+        [Route("testruns/unique")]
+        public HttpResponseMessage GetUniqueTestRunNames()
+        {
+            var uniqueNames = MongoDb.GetUniqueTestRunNames();
+            var json = JsonConvert.SerializeObject(uniqueNames);
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+            };
+        }
+
+        [HttpGet]
         [Route("testrun/{id}")]
         public HttpResponseMessage GetTestRunById(string id)
         {
@@ -120,6 +132,18 @@ namespace TestResultRepoAPI.Controllers
         }
 
         [HttpGet]
+        [Route("testsuites/unique")]
+        public HttpResponseMessage GetUniqueTestSuiteNames()
+        {
+            var uniqueNames = MongoDb.GetUniqueTestSuiteNames();
+            var json = JsonConvert.SerializeObject(uniqueNames);
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+            };
+        }
+
+        [HttpGet]
         [Route("testsuite/{id}")]
         public HttpResponseMessage GetTestSuiteById(string id)
         {
@@ -150,6 +174,18 @@ namespace TestResultRepoAPI.Controllers
 
 
             var json = JsonConvert.SerializeObject(testcases);
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+            };
+        }
+
+        [HttpGet]
+        [Route("testcases/unique")]
+        public HttpResponseMessage GetUniqueTestCaseNames()
+        {
+            var uniqueNames = MongoDb.GetUniqueTestCaseNames();
+            var json = JsonConvert.SerializeObject(uniqueNames);
             return new HttpResponseMessage()
             {
                 Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
