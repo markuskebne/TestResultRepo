@@ -52,6 +52,46 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<List<TestRun>> GetTestRunsByName(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testrun/?name={name}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json);
+
+                return testRuns;
+
+            }
+        }
+
+        public static async Task<List<TestRun>> GetTestRunsByCategory(string category)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testrun/?category={category}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json);
+
+                return testRuns;
+
+            }
+        }
+
         public static async Task<List<TestSuite>> GetAllTestSuites()
         {
             using (var client = new HttpClient())
@@ -91,6 +131,46 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<List<TestSuite>> GetTestSuitesByName(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testsuite/?name={name}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testSuites = JsonConvert.DeserializeObject<List<TestSuite>>(json);
+
+                return testSuites;
+
+            }
+        }
+
+        public static async Task<List<TestSuite>> GetTestSuitesByCategory(string category)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testsuite/?category={category}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testSuites = JsonConvert.DeserializeObject<List<TestSuite>>(json);
+
+                return testSuites;
+
+            }
+        }
+
         public static async Task<List<TestCase>> GetAllTestCases()
         {
             using (var client = new HttpClient())
@@ -109,6 +189,7 @@ namespace TestResultRepoWebSite.HelperMethods
                 return testCases;
             }
         }
+
         public static async Task<TestCase> GetTestCase(string id)
         {
             using (var client = new HttpClient())
@@ -126,6 +207,44 @@ namespace TestResultRepoWebSite.HelperMethods
 
                 return testCase;
 
+            }
+        }
+
+        public static async Task<List<TestCase>> GetTestCasesByName(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testcase/?name={name}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testCases = JsonConvert.DeserializeObject<List<TestCase>>(json);
+
+                return testCases;
+            }
+        }
+
+        public static async Task<List<TestCase>> GetTestCasesByCategory(string category)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testcase/?category={category}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testCases = JsonConvert.DeserializeObject<List<TestCase>>(json);
+
+                return testCases;
             }
         }
 
