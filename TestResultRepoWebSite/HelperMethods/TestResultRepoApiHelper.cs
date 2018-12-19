@@ -14,6 +14,7 @@ namespace TestResultRepoWebSite.HelperMethods
     {
         private static readonly string Baseurl = ConfigurationManager.AppSettings["APIBaseUrl"];
 
+        #region TestRuns
         public static async Task<List<TestRun>> GetAllTestRuns()
         {
             using (var client = new HttpClient())
@@ -92,6 +93,28 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<List<string>> GetUniqueTestRunNames()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync("api/testruns/unique");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<string>>(json).OrderBy(x => x).ToList();
+
+                return testRuns;
+            }
+        }
+
+        #endregion
+
+        #region TestSuites
         public static async Task<List<TestSuite>> GetAllTestSuites()
         {
             using (var client = new HttpClient())
@@ -171,6 +194,29 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<List<string>> GetUniqueTestSuiteNames()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync("api/testsuites/unique");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<string>>(json).OrderBy(x => x).ToList();
+
+                return testRuns;
+            }
+        }
+
+        #endregion
+
+        #region TestCases
+
         public static async Task<List<TestCase>> GetAllTestCases()
         {
             using (var client = new HttpClient())
@@ -248,6 +294,29 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<List<string>> GetUniqueTestCaseNames()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync("api/testcases/unique");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<string>>(json).OrderBy(x => x).ToList();
+
+                return testRuns;
+            }
+        }
+
+        #endregion
+
+        #region Shared
+
         public static async Task<TestRun> GetTestRunWithChildren(string id)
         {
             var testRun = await GetTestRun(id);
@@ -277,5 +346,7 @@ namespace TestResultRepoWebSite.HelperMethods
             
             return testsuite;
         }
+
+        #endregion
     }
 }
