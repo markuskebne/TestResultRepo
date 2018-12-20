@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Failure.cs" />
+    <Compile Include="GroupedTestCases.cs" />
     <Compile Include="GroupedTestSuites.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="TestBase.cs" />

@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using TestResultRepoData;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -12,6 +15,8 @@ namespace TestResultRepoWebSite.Controllers
             if (id == null)
             {
                 var testCases = await HelperMethods.TestResultRepoApiHelper.GetAllTestCases();
+                //var groupedTestCases = getGroupedTestCases(testCases);
+                var uniqueNames = await HelperMethods.TestResultRepoApiHelper.GetUniqueTestCaseNames();
                 if (testCases != null)
                 {
                     ViewBag.Message = "Here are the TestCases you were looking for:";
@@ -22,7 +27,7 @@ namespace TestResultRepoWebSite.Controllers
                     ViewBag.Message = "No such TestCase found.";
                 }
 
-                return View("All");
+                return View("TestCaseCollection", uniqueNames);
             }
 
             // Return the index view if id is provided
@@ -41,6 +46,28 @@ namespace TestResultRepoWebSite.Controllers
             }
 
             return View("TestCaseCard", testCase);
+        }
+
+        private List<GroupedTestCases> getGroupedTestCases(List<TestCase> testCases)
+        {
+            var groupedTestCases = new List<GroupedTestCases>();
+            var uniqueNames = testCases.Select(ts => ts.Name).Distinct();
+            foreach (var uniqueName in uniqueNames)
+            {
+                var group = new GroupedTestCases();
+
+                group.Name = uniqueName;
+                group.TestSuites = testCases.Where(ts => ts.Name == uniqueName).ToList();
+                group.Total = group.TestSuites.Count();
+                group.Passed = testCases.Count(ts => ts.Result == Result.Passed);
+                group.Failed = testCases.Count(ts => ts.Result == Result.Failed);
+
+                groupedTestCases.Add(group);
+            }
+
+            //var groupedList = testSuites.GroupBy(ts => ts.Name).Select(name => name.ToList()).ToList();
+
+            return groupedTestCases;
         }
     }
 }

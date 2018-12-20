@@ -250,6 +250,7 @@
     <Content Include="Views\Shared\TestSuiteCard.cshtml" />
     <Content Include="Views\Shared\TestCaseCard.cshtml" />
     <Content Include="Views\Shared\TestSuiteCollectionCard.cshtml" />
+    <Content Include="Views\Shared\TestCaseCollection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
