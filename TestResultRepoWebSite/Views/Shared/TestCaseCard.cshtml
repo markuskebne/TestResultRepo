@@ -1,8 +1,11 @@
 ﻿@using TestResultRepoData
+@using TestResultRepoWebSite.HelperMethods
 
 @{
     TestCase testcase = @Model;
+    //string id = @Model;
     Guid idGuid = Guid.NewGuid();
+    //TestCase testcase = TestResultRepoApiHelper.GetTestCase(id).Result;
 
     string resultColor;
 }

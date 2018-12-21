@@ -1,0 +1,11 @@
+﻿@using TestResultRepoData
+@{
+    var testcases = @Model;
+}
+
+<div>
+    @foreach (TestCase testcase in testcases)
+    {
+        @Html.Partial("TestCaseCard", testcase)
+    }
+</div>

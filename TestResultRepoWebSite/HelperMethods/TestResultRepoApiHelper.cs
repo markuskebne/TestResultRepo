@@ -264,7 +264,7 @@ namespace TestResultRepoWebSite.HelperMethods
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync($"api/testcase/?name={name}");
+                var response = await client.GetAsync($"api/testcases/?name={name}");
 
                 if (!response.IsSuccessStatusCode) return null;
 

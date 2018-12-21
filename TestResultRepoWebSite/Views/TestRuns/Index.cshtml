@@ -1,7 +1,7 @@
 ﻿@using TestResultRepoData
 
 @{
-    ViewBag.Title = "Index";    
+    ViewBag.Title = "Index";
 }
 
 <div class="@ViewBag.ResultColorClass">
@@ -31,14 +31,14 @@
     </div>
     @*<div class="card-columns" style="column-count: 3">*@
     <div class="d-flex flex-wrap">
-            @{
-                foreach (var suite in ViewBag.testRun.TestSuites as ICollection<TestSuite>)
-                {
-                    <div style="width: 33%;">
-                        @Html.Partial("TestSuiteCard", suite)
-                    </div>
-                }
+        @{
+            foreach (var suite in ViewBag.testRun.TestSuites as ICollection<TestSuite>)
+            {
+                <div style="width: 33%;">
+                    @Html.Partial("TestSuiteCard", suite)
+                </div>
             }
+        }
     </div>
 </div>
 

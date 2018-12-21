@@ -3,26 +3,3 @@
 @{
     ViewBag.Title = "All";
 }
-
-<h2>
-    <a href="/">TestCase</a>
-</h2>
-
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Result</th>
-
-    </tr>
-    @foreach (var testCase in ViewBag.testCases as ICollection<TestCase>)
-    {
-        <tr>
-            <td>
-                <a href="?id=@testCase._Id">@testCase.Name</a>
-            </td>
-            <td>@testCase.StartTime</td>
-            <td>@testCase.Result</td>
-        </tr>
-    }
-</table>
