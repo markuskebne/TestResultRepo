@@ -1,0 +1,60 @@
+﻿@using TestResultRepoData
+
+@section JavaScript
+{
+    @*<script src="~/Scripts/js/TestCaseCollection.js"></script>*@
+}
+
+@{
+    var groups = @Model;
+    Guid idGuid;
+}
+
+<div class="testCaseGroupList">
+    @foreach (var group in groups as ICollection<string>)
+    {
+        idGuid = Guid.NewGuid();
+        <div class="testCaseGroup">
+            <div id="@("accordion_" + idGuid)">
+                <div class="card text-white contentLoader">
+                    <div class="card-header d-flex flex-row" id="@("heading_" + idGuid)" onclick="renderTestCaseCardList('@group', '@idGuid')" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+                        <div class="truncate ">
+                            @*<a href="/@("testsuites?id=" + @suite._Id)">@group.Name</a>*@
+                            <p>@group</p>
+                        </div>
+                    </div>
+
+
+                    <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <div id=@("divPartialViewContainer_" + idGuid)>
+
+                                    @*  TestCaseCardList is rendered here  *@
+
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    function renderTestCaseCardList(group, idGuid) {
+            $.ajax({
+                url: '@Url.Action("GetPartialView", "TestCaseGroupList")',
+                type: 'GET',
+                data: { 'name': group},
+                contentType: 'application/html',
+                //data: JSON.stringify(model),
+                success: function (content) {
+                    $('#divPartialViewContainer_' + idGuid).html(content);
+                },
+                error: function (e) { }
+            });  
+    }
+</script>

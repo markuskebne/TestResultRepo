@@ -1,0 +1,10 @@
+﻿@using TestResultRepoData
+@{
+    var testSuites = @Model;
+}
+
+<div class="testSuiteCardList">
+    @foreach (TestSuite testsuite in testSuites)
+    {
+        Html.RenderAction("RenderViewFromTestSuite", "TestSuiteCard", new { testSuite = testsuite });    }
+</div>
