@@ -3,9 +3,9 @@
     var testcases = @Model;
 }
 
-<div>
+<div class="testCaseCardList">
     @foreach (TestCase testcase in testcases)
     {
-        @Html.Partial("TestCaseCard", testcase)
+        Html.RenderAction("RenderViewFromTestCase", "TestCaseCard", new { testCase = testcase });
     }
 </div>

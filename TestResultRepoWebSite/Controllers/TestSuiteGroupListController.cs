@@ -17,7 +17,7 @@ namespace TestResultRepoWebSite.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetPartialView(string name)
+        public async Task<ActionResult> RenderTestSuiteCardList(string name)
         {
             var testSuites = await TestResultRepoApiHelper.GetTestSuitesByName(name);
             return PartialView("TestSuiteCardList", testSuites);

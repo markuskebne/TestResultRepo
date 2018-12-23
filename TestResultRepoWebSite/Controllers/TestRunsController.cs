@@ -50,18 +50,6 @@ namespace TestResultRepoWebSite.Controllers
                 ViewBag.inconclusivePercent = inconclusivePercent.ToString("N2").Replace(",", ".");
 
                 ViewBag.TestRunName = testRun.Name;
-                //switch (testRun.Result)
-                //{
-                //    case Result.Passed:
-                //        ViewBag.ResultColorClass = "bg-success";
-                //        break;
-                //    case Result.Failed:
-                //        ViewBag.ResultColorClass = "bg-danger";
-                //        break;
-                //    default:
-                //        ViewBag.ResultColorClass = "bg-warning";
-                //        break;
-                //}
 
                 ViewBag.temptestrun = testRun;
                 ViewBag.temptestsuite = testRun.TestSuites.FirstOrDefault();

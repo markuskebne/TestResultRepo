@@ -150,9 +150,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TestCaseCollectionController.cs" />
+    <Compile Include="Controllers\TestCaseCardController.cs" />
+    <Compile Include="Controllers\TestCaseGroupListController.cs" />
     <Compile Include="Controllers\TestCasesController.cs" />
     <Compile Include="Controllers\TestRunsController.cs" />
+    <Compile Include="Controllers\TestSuiteCardController.cs" />
+    <Compile Include="Controllers\TestSuiteGroupListController.cs" />
     <Compile Include="Controllers\TestSuitesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -252,13 +255,18 @@
     <Content Include="Views\Shared\TestSuiteCard.cshtml" />
     <Content Include="Views\Shared\TestCaseCard.cshtml" />
     <Content Include="Views\Shared\TestSuiteCollectionCard.cshtml" />
-    <Content Include="Views\Shared\TestCaseCollection.cshtml" />
+    <Content Include="Views\Shared\TestCaseGroupList.cshtml" />
     <Content Include="Views\Shared\TestCaseCardList.cshtml" />
+    <Content Include="Views\Shared\TestSuiteGroupList.cshtml" />
+    <Content Include="Views\Shared\TestSuiteCardList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\TestCaseCard\" />
     <Folder Include="Views\TestCaseCollection\" />
+    <Folder Include="Views\TestSuiteCard\" />
+    <Folder Include="Views\TestSuiteCollection\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

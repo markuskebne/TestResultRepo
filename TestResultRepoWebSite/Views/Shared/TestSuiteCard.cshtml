@@ -24,32 +24,35 @@
         break;
 }
 
-<div id="@("accordion_" + idGuid)">
-    <div class="card text-white">
-        <div class="card-header @resultColor d-flex flex-row" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
-            <div class="truncate ">
-                <a href="/@("testsuites?id=" + @suite._Id)">@suite.Name</a>
+<div class="testSuiteCard">
+    <div id="@("accordion_" + idGuid)">
+        <div class="card text-white">
+            <div class="card-header @resultColor d-flex flex-row" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+                <div class="truncate ">
+                    <a href="/@("testsuites?id=" + @suite._Id)">@suite.Name</a>
+                </div>
+
+                @if (numberOfPassedTestCases > 0)
+                {
+                    <span class="badge badge-success ml-auto">@numberOfPassedTestCases</span>
+                }
+                @if (numberOfFailedTestCases > 0)
+                {
+                    <span class="badge badge-danger ml-auto">@numberOfFailedTestCases</span>
+                }
             </div>
+            <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        
+                        @*Todo: Replace with ajax call to load testcases when expanded (like in TestSuiteGroupList)*@
+                        @foreach (var testcaseId in suite.TestCaseIds as ICollection<string>)
+                        {
+                            Html.RenderAction("RenderViewFromId", "TestCaseCard", new { Id = testcaseId });
+                        }
 
-            @if (numberOfPassedTestCases > 0)
-            {
-                <span class="badge badge-success ml-auto">@numberOfPassedTestCases</span>
-            }
-            @if (numberOfFailedTestCases > 0)
-            {
-                <span class="badge badge-danger ml-auto">@numberOfFailedTestCases</span>
-            }
-        </div>
-        <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-
-                    @foreach (var testcase in suite.TestCases as ICollection<TestCase>)
-                    {
-                        @Html.Partial("TestCaseCard", testcase)
-                    }
-
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

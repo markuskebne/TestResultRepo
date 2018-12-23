@@ -41,23 +41,9 @@
 <script>
     function renderTestSuiteCardList(group, idGuid) {
         $.ajax({
-            url: '@Url.Action("GetPartialView", "TestSuiteGroupList")',
+            url: '@Url.Action("RenderTestSuiteCardList", "TestSuiteGroupList")',
             type: 'GET',
             data: { 'name': group},
-            contentType: 'application/html',
-            //data: JSON.stringify(model),
-            success: function (content) {
-                $('#divPartialViewContainer_' + idGuid).html(content);
-            },
-            error: function (e) { }
-        });  
-    }
-
-    function renderTestCaseCardList(suite, idGuid) {
-        $.ajax({
-            url: '@Url.Action("RenderTestCaseCardList", "TestSuiteCard")',
-            type: 'GET',
-            data: { 'suite': suite},
             contentType: 'application/html',
             //data: JSON.stringify(model),
             success: function (content) {

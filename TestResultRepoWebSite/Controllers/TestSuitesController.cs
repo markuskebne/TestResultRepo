@@ -15,22 +15,13 @@ namespace TestResultRepoWebSite.Controllers
             // Return the listview if no id is provided
             if (id == null)
             {
-                var testSuites = await HelperMethods.TestResultRepoApiHelper.GetAllTestSuites();
-                var groupedSuites = getGroupedTestSuites(testSuites);
-
-                if (testSuites != null)
+                var uniqueNames = await HelperMethods.TestResultRepoApiHelper.GetUniqueTestSuiteNames();
+                if (uniqueNames == null)
                 {
-                    ViewBag.Message = "Here are the TestSuites you were looking for:";
-                    ViewBag.testSuites = testSuites;
-                }
-                else
-                {
-                    ViewBag.Message = "No such TestSuite found.";
+                    ViewBag.Message = "No such TestCase found.";
                 }
 
-                ViewBag.groups = groupedSuites;
-
-                return View("TestSuiteCollectionCard", groupedSuites);
+                return View("TestSuiteGroupList", uniqueNames);
             }
 
             // Return the index view if id is provided
@@ -62,27 +53,5 @@ namespace TestResultRepoWebSite.Controllers
 
             return View("TestSuiteCard", testSuite);
         }
-
-        private List<GroupedTestSuites> getGroupedTestSuites(List<TestSuite> testSuites)
-        {
-            var groupedTestSuites = new List<GroupedTestSuites>();
-            var uniqueSuiteNames = testSuites.Select(ts => ts.Name).Distinct();
-            foreach (var uniqueSuiteName in uniqueSuiteNames)
-            {
-                var group = new GroupedTestSuites();
-
-                group.Name = uniqueSuiteName;
-                group.TestSuites = testSuites.Where(ts => ts.Name == uniqueSuiteName).ToList();
-                group.Total = group.TestSuites.Count();
-                group.Passed = testSuites.Count(ts => ts.Result == Result.Passed);
-                group.Failed = testSuites.Count(ts => ts.Result == Result.Failed);
-
-                groupedTestSuites.Add(group);
-            }
-            
-            //var groupedList = testSuites.GroupBy(ts => ts.Name).Select(name => name.ToList()).ToList();
-
-            return groupedTestSuites;
-        } 
     }
 }

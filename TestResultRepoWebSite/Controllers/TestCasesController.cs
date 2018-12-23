@@ -14,20 +14,15 @@ namespace TestResultRepoWebSite.Controllers
             // Return the listview if no id is provided
             if (id == null)
             {
-                var testCases = await HelperMethods.TestResultRepoApiHelper.GetAllTestCases();
+                //var testCases = await HelperMethods.TestResultRepoApiHelper.GetAllTestCases();
                 //var groupedTestCases = getGroupedTestCases(testCases);
                 var uniqueNames = await HelperMethods.TestResultRepoApiHelper.GetUniqueTestCaseNames();
-                if (testCases != null)
-                {
-                    ViewBag.Message = "Here are the TestCases you were looking for:";
-                    ViewBag.testCases = testCases;
-                }
-                else
+                if (uniqueNames == null)
                 {
                     ViewBag.Message = "No such TestCase found.";
                 }
 
-                return View("TestCaseCollection", uniqueNames);
+                return View("TestCaseGroupList", uniqueNames);
             }
 
             // Return the index view if id is provided

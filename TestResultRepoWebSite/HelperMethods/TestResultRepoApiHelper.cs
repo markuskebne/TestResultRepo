@@ -154,6 +154,26 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static  TestSuite GetTestSuiteSync(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync($"api/testsuite/{id}").Result;
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testSuite = JsonConvert.DeserializeObject<List<TestSuite>>(json).FirstOrDefault();
+
+                return testSuite;
+
+            }
+        }
+
         public static async Task<List<TestSuite>> GetTestSuitesByName(string name)
         {
             using (var client = new HttpClient())
@@ -162,7 +182,7 @@ namespace TestResultRepoWebSite.HelperMethods
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync($"api/testsuite/?name={name}");
+                var response = await client.GetAsync($"api/testsuites/?name={name}");
 
                 if (!response.IsSuccessStatusCode) return null;
 
@@ -245,6 +265,26 @@ namespace TestResultRepoWebSite.HelperMethods
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var response = await client.GetAsync($"api/testcase/{id}");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testCase = JsonConvert.DeserializeObject<List<TestCase>>(json).FirstOrDefault();
+
+                return testCase;
+
+            }
+        }
+
+        public static  TestCase GetTestCaseSync(string id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync($"api/testcase/{id}").Result;
 
                 if (!response.IsSuccessStatusCode) return null;
 
