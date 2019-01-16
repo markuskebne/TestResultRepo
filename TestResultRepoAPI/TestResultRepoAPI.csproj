@@ -117,9 +117,9 @@
       <Project>{d61855ae-1a44-4dcb-b5a5-0a376ab5317a}</Project>
       <Name>TestResultRepoIO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestResultRepoData\TestReultRepoData.csproj">
+    <ProjectReference Include="..\TestResultRepoData\TestResultRepoModels.csproj">
       <Project>{400f56f3-2a97-43b4-ae56-280242c74936}</Project>
-      <Name>TestReultRepoData</Name>
+      <Name>TestResultRepoModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

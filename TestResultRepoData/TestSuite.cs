@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
-namespace TestResultRepoData
+namespace TestResultRepoModels
 {
     public class TestSuite : TestBase
     {

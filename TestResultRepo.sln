@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoConsole", "TestResultRepo\TestResultRepoConsole.csproj", "{78174797-601D-4941-B0EC-94322AD0867C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestReultRepoData", "TestResultRepoData\TestReultRepoData.csproj", "{400F56F3-2A97-43B4-AE56-280242C74936}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoModels", "TestResultRepoData\TestResultRepoModels.csproj", "{400F56F3-2A97-43B4-AE56-280242C74936}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoIO", "Output\TestResultRepoIO.csproj", "{D61855AE-1A44-4DCB-B5A5-0A376AB5317A}"
 EndProject

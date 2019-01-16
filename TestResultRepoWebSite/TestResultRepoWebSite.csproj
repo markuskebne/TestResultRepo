@@ -274,9 +274,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TestResultRepoData\TestReultRepoData.csproj">
+    <ProjectReference Include="..\TestResultRepoData\TestResultRepoModels.csproj">
       <Project>{400f56f3-2a97-43b4-ae56-280242c74936}</Project>
-      <Name>TestReultRepoData</Name>
+      <Name>TestResultRepoModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

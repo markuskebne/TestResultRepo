@@ -1,4 +1,4 @@
-﻿namespace TestResultRepoData
+﻿namespace TestResultRepoModels
 {
     public enum Result
     {

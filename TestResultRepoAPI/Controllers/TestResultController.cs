@@ -5,8 +5,8 @@ using System.Web.Http;
 using MongoDB.Bson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Output;
-using TestResultRepoData;
+using TestResultRepoIO;
+using TestResultRepoModels;
 
 namespace TestResultRepoAPI.Controllers
 {

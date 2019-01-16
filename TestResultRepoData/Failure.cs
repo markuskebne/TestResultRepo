@@ -1,4 +1,4 @@
-﻿namespace TestResultRepoData
+﻿namespace TestResultRepoModels
 {
     public class Failure
     {

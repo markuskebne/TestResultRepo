@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Output;
+using TestResultRepoIO;
 using Output.Parsers;
 using static System.IO.Path;
 

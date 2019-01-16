@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace TestResultRepoData
+namespace TestResultRepoModels
 {
     public class TestRun : TestBase
     {

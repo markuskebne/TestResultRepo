@@ -2,17 +2,18 @@
 using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using TestResultRepoData;
+using TestResultRepoModels;
+using System.Configuration;
 
-namespace Output
+namespace TestResultRepoIO
 {
     public static class MongoDb
     {
-        private static string connectionString = "mongodb://localhost:27017";
-        private static string databaseName = "TestResults";
-        private static string testRunCollectionName = "test_runs";
-        private static string testSuiteCollectionName = "test_suites";
-        private static string testCaseCollectionName = "test_cases";
+        private static string connectionString = ConfigurationManager.AppSettings["connectionString"];
+        private static string databaseName = ConfigurationManager.AppSettings["databaseName"];
+        private static string testRunCollectionName = ConfigurationManager.AppSettings["testRunCollectionName"];
+        private static string testSuiteCollectionName = ConfigurationManager.AppSettings["testSuiteCollectionName"];
+        private static string testCaseCollectionName = ConfigurationManager.AppSettings["testCaseCollectionName"];
 
         #region Save Data
         public static void SaveTestRun(TestRun testRun)
