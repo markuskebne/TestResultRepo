@@ -61,6 +61,18 @@ namespace TestResultRepoAPI.Controllers
             };
         }
 
+        [HttpGet]
+        [Route("testrun/latest")]
+        public HttpResponseMessage GetLatestTestRun()
+        {
+            var latestTestRun = MongoDb.GetLatestTestRun();
+            var json = JsonConvert.SerializeObject(latestTestRun);
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent(json, System.Text.Encoding.UTF8, "application/json")
+            };
+        }
+
         [HttpPost]
         [Route("testrun/save")]
         public HttpResponseMessage SaveTestRun(JObject jsonBody)
