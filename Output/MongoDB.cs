@@ -164,6 +164,21 @@ namespace TestResultRepoIO
 
             return result;
         }
+        public static TestRun GetLatestTestRun()
+        {
+            var client = new MongoClient(connectionString);
+            IMongoDatabase db = client.GetDatabase(databaseName);
+            IMongoCollection<TestRun> dbCollection = db.GetCollection<TestRun>(testRunCollectionName);
+
+            var filter = Builders<TestRun>.Filter.Empty;
+
+            var result = dbCollection.Find(filter).SortByDescending(x => x.EndTime).ToList();
+
+            var lastTestRun = result.FirstOrDefault();
+
+            return lastTestRun;
+        }
+
         #endregion
 
         #region TestSuite
