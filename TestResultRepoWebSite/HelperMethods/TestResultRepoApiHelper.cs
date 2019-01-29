@@ -112,6 +112,25 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static async Task<TestRun> GetLatestTestRun()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync($"api/testrun/latest");
+
+                if (!response.IsSuccessStatusCode) return null;
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRun = JsonConvert.DeserializeObject<TestRun>(json);
+
+                return testRun;
+
+            }
+        }
+
         #endregion
 
         #region TestSuites

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoModels;
+using TestResultRepoWebSite.HelperMethods;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -31,7 +32,7 @@ namespace TestResultRepoWebSite.Controllers
             }
 
             // Return the index view if id is provided
-            var testRun = await HelperMethods.TestResultRepoApiHelper.GetTestRunWithChildren(id);
+            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(id);
 
             if (testRun != null)
             {
@@ -62,6 +63,12 @@ namespace TestResultRepoWebSite.Controllers
             }
 
             return View();
+        }
+
+        public async Task<ActionResult> Latest()
+        {
+            var testRun = await TestResultRepoApiHelper.GetLatestTestRun();
+            return RedirectToAction("Index", "TestRuns", new {id = testRun._Id});
         }
     }
 }
