@@ -36,25 +36,7 @@ namespace TestResultRepoWebSite.Controllers
 
             if (testRun != null)
             {
-                ViewBag.testRun = testRun;
-                ViewBag.Message = "Here is the TestRun you were looking for:";
-                ViewBag.TestRunId = id;
-
-                var totalTestsRun = testRun.TestCaseCount - testRun.Skipped;
-                double passedPercent = ((double)testRun.Passed / totalTestsRun) * 100;
-                double failedPercent = ((double)testRun.Failed / totalTestsRun) * 100;
-                double inconclusivePercent = ((double)testRun.Inconclusive / totalTestsRun) * 100;
-
-                ViewBag.totalTestsRun = totalTestsRun.ToString();
-                ViewBag.passedPercent = passedPercent.ToString("N2").Replace(",", ".");
-                ViewBag.failedPercent = failedPercent.ToString("N2").Replace(",", ".");
-                ViewBag.inconclusivePercent = inconclusivePercent.ToString("N2").Replace(",", ".");
-
-                ViewBag.TestRunName = testRun.Name;
-
-                ViewBag.temptestrun = testRun;
-                ViewBag.temptestsuite = testRun.TestSuites.FirstOrDefault();
-                ViewBag.temptestcase = testRun.TestSuites.FirstOrDefault().TestCases.FirstOrDefault();
+                PopulateViewBag(testRun);
             }
 
             else
@@ -67,8 +49,34 @@ namespace TestResultRepoWebSite.Controllers
 
         public async Task<ActionResult> Latest()
         {
-            var testRun = await TestResultRepoApiHelper.GetLatestTestRun();
-            return RedirectToAction("Index", "TestRuns", new {id = testRun._Id});
+            var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun();
+            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(latestTestRun._Id);
+            PopulateViewBag(testRun);
+            return View();
+            //return RedirectToAction("Index", "TestRuns", new {id = testRun._Id});
+        }
+
+        public void PopulateViewBag(TestRun testRun)
+        {
+            ViewBag.testRun = testRun;
+            ViewBag.Message = "Here is the TestRun you were looking for:";
+            ViewBag.TestRunId = testRun._Id;
+
+            var totalTestsRun = testRun.TestCaseCount - testRun.Skipped;
+            double passedPercent = ((double)testRun.Passed / totalTestsRun) * 100;
+            double failedPercent = ((double)testRun.Failed / totalTestsRun) * 100;
+            double inconclusivePercent = ((double)testRun.Inconclusive / totalTestsRun) * 100;
+
+            ViewBag.totalTestsRun = totalTestsRun.ToString();
+            ViewBag.passedPercent = passedPercent.ToString("N2").Replace(",", ".");
+            ViewBag.failedPercent = failedPercent.ToString("N2").Replace(",", ".");
+            ViewBag.inconclusivePercent = inconclusivePercent.ToString("N2").Replace(",", ".");
+
+            ViewBag.TestRunName = testRun.Name;
+
+            ViewBag.temptestrun = testRun;
+            ViewBag.temptestsuite = testRun.TestSuites.FirstOrDefault();
+            ViewBag.temptestcase = testRun.TestSuites.FirstOrDefault().TestCases.FirstOrDefault();
         }
     }
 }
