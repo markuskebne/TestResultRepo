@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoWebSite.HelperMethods;
 
@@ -17,6 +13,7 @@ namespace TestResultRepoWebSite.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = 3600, VaryByParam = "name")]
         public async Task<ActionResult> RenderTestSuiteCardList(string name)
         {
             var testSuites = await TestResultRepoApiHelper.GetTestSuitesByName(name);

@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.EnterpriseServices;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using TestResultRepoModels;
 
 namespace TestResultRepoWebSite.Controllers
 {
     public class TestSuitesController : Controller
     {
         // GET: TestSuite
+        [OutputCache(Duration = 3600, VaryByParam = "id")]
         public async Task<ActionResult> Index(string id)
         {
             // Return the listview if no id is provided

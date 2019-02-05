@@ -1,27 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
 
+
 namespace TestResultRepoWebSite.Controllers
 {
     public class TestRunsController : Controller
-    {
+    {       
         // GET: TestRun
+        [OutputCache(Duration = 3600, VaryByParam = "id")]
         public async Task<ActionResult> Index(string id)
         {
             // Return the listview if no id is provided
             if (id == null)
             {
-                var testRuns = await HelperMethods.TestResultRepoApiHelper.GetAllTestRuns();
-                List<TestRun> ordertestRuns = testRuns.OrderByDescending(run => run.StartTime).ToList();
-                if (testRuns != null)
+                var testRuns = await TestResultRepoApiHelper.GetAllTestRuns();
+                var orderedTestRuns = testRuns.OrderByDescending(run => run.EndTime).ToList();
+                if (testRuns.Count != 0)
                 {
                     ViewBag.Message = "Here are the TestRuns you were looking for:";
-                    ViewBag.testRuns = ordertestRuns;
+                    ViewBag.testRuns = orderedTestRuns;
                 }
                 else
                 {
@@ -56,6 +57,52 @@ namespace TestResultRepoWebSite.Controllers
             //return RedirectToAction("Index", "TestRuns", new {id = testRun._Id});
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "id")]
+        public async Task<ActionResult> Previous(string id)
+        {
+            var testRuns = await TestResultRepoApiHelper.GetAllTestRuns();
+            var orderedTestRuns = testRuns.OrderBy(tr => tr.EndTime).ToList();
+            var indexOfCurrent = orderedTestRuns.FindIndex(tr => tr._Id == id);
+
+            string idOfPrevious;
+            try
+            {
+                idOfPrevious = orderedTestRuns[indexOfCurrent - 1]._Id;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                PopulateViewBag(await TestResultRepoApiHelper.GetTestRunWithChildren(id));
+                return View("Index");
+            }
+            
+            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(idOfPrevious);
+            PopulateViewBag(testRun);
+            return View("Index");
+        }
+
+        [OutputCache(Duration = 3600, VaryByParam = "id")]
+        public async Task<ActionResult> Next(string id)
+        {
+            var testRuns = await TestResultRepoApiHelper.GetAllTestRuns();
+            var orderedTestRuns = testRuns.OrderBy(tr => tr.EndTime).ToList();
+            var indexOfCurrent = orderedTestRuns.FindIndex(tr => tr._Id == id);
+
+            string idOfNext;
+            try
+            {
+                idOfNext = orderedTestRuns[indexOfCurrent + 1]._Id;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                PopulateViewBag(await TestResultRepoApiHelper.GetTestRunWithChildren(id));
+                return View("Index");
+            }
+
+            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(idOfNext);
+            PopulateViewBag(testRun);
+            return View("Index");
+        }
+
         public void PopulateViewBag(TestRun testRun)
         {
             ViewBag.testRun = testRun;
@@ -76,7 +123,7 @@ namespace TestResultRepoWebSite.Controllers
 
             ViewBag.temptestrun = testRun;
             ViewBag.temptestsuite = testRun.TestSuites.FirstOrDefault();
-            ViewBag.temptestcase = testRun.TestSuites.FirstOrDefault().TestCases.FirstOrDefault();
+            ViewBag.temptestcase = testRun.TestSuites.FirstOrDefault()?.TestCases.FirstOrDefault();
         }
     }
 }
