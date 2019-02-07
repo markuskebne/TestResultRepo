@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
@@ -24,8 +20,9 @@ namespace TestResultRepoWebSite.Controllers
             return PartialView("TestSuiteCard", testSuite);
         }
 
-        public ActionResult RenderViewFromTestSuite(TestSuite testSuite)
+        public ActionResult RenderViewFromTestSuite(TestSuite testSuite, bool showDate = true)
         {
+            ViewBag.showDate = showDate;
             return PartialView("TestSuiteCard", testSuite);
         }
     }

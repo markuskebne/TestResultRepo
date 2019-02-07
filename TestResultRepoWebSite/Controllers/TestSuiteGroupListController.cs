@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoWebSite.HelperMethods;
 
@@ -17,7 +18,8 @@ namespace TestResultRepoWebSite.Controllers
         public async Task<ActionResult> RenderTestSuiteCardList(string name)
         {
             var testSuites = await TestResultRepoApiHelper.GetTestSuitesByName(name);
-            return PartialView("TestSuiteCardList", testSuites);
+            var orderedTestSuites = testSuites.OrderByDescending(ts => ts.EndTime);
+            return PartialView("TestSuiteCardList", orderedTestSuites);
         }
     }
 }

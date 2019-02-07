@@ -1,11 +1,9 @@
 ﻿@using TestResultRepoModels
-@using TestResultRepoWebSite.HelperMethods
 
 @{
     TestCase testcase = @Model;
-    //string id = @Model;
     Guid idGuid = Guid.NewGuid();
-    //TestCase testcase = TestResultRepoApiHelper.GetTestCase(id).Result;
+    bool showDate = ViewBag.showDate ?? true;
 
     string resultColor;
 }
@@ -26,8 +24,14 @@
 <div class="testCaseCard">
     <div id="@("accordion_" + idGuid)">
         <div class="card text-white">
-            <div class="card-header cardlisttext @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
-                <a href="/@("testcases?id=" + @testcase._Id)">@testcase.Name</a>
+            <div class="card-header cardlisttext @resultColor d-flex flex-row" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+                <div class="truncate">
+                    <a href="/@("testcases?id=" + @testcase._Id)">@testcase.Name</a>
+                </div>   
+                @if(showDate)
+                {
+                    <span class="badge badge-primary ml-auto">@testcase.EndTime.AsDateTime().ToString("yyyy-MM-dd HH:mm")</span>
+                }
             </div>
             @if (testcase.Result != Result.Passed)
             {

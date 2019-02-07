@@ -3,6 +3,7 @@
 @{
     TestSuite suite = @Model;
     Guid idGuid = Guid.NewGuid();
+    bool showDate = ViewBag.showDate ?? true;
 
     string resultColor;
 
@@ -31,6 +32,10 @@
                 <div class="truncate ">
                     <a href="/@("testsuites?id=" + @suite._Id)">@suite.Name</a>
                 </div>
+                @if (showDate)
+                {
+                    <span class="badge badge-primary ml-auto">@suite.EndTime.AsDateTime().ToString("yyyy-MM-dd HH:mm")</span>
+                }
 
                 @if (numberOfPassedTestCases > 0)
                 {
@@ -48,7 +53,7 @@
                         @*Todo: Replace with ajax call to load testcases when expanded (like in TestSuiteGroupList)*@
                         @foreach (var testcaseId in suite.TestCaseIds as ICollection<string>)
                         {
-                            Html.RenderAction("RenderViewFromId", "TestCaseCard", new { Id = testcaseId });
+                            Html.RenderAction("RenderViewFromId", "TestCaseCard", new { Id = testcaseId, showDate = ViewBag.showDate });
                         }
 
                     </ul>

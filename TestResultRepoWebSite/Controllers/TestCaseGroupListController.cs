@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
 
 namespace TestResultRepoWebSite.Controllers
@@ -21,7 +17,8 @@ namespace TestResultRepoWebSite.Controllers
         public async Task<ActionResult> GetPartialView(string name)
         {
             var testCases = await TestResultRepoApiHelper.GetTestCasesByName(name);
-            return PartialView("TestCaseCardList", testCases);
+            var orderedTestCases = testCases.OrderByDescending(ts => ts.EndTime);
+            return PartialView("TestCaseCardList", orderedTestCases);
         }
     }
 }

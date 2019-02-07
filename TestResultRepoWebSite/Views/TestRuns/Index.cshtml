@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    TestRun testRun = ViewBag.testRun;
 }
 
 <div class="container">
@@ -17,7 +18,7 @@
                 <h3>@ViewBag.testRun.Name</h3>
             </div>
             <div class="col-sm-6 text-center">
-                <h3>@ViewBag.testRun.StartTime</h3>
+                <h3>@testRun.EndTime.AsDateTime()</h3>
             </div>
         </div>
     </div>
@@ -41,7 +42,8 @@
             foreach (var suite in ViewBag.testRun.TestSuites as ICollection<TestSuite>)
             {
                 <div style="width: 33%;">
-                    @Html.Partial("TestSuiteCard", suite)
+                    @* Do not show the date-badge on suite cards and case cards in this view*@
+                    @Html.Action("RenderViewFromTestSuite", "TestSuiteCard", new {testsuite = suite, showDate = false})
                 </div>
             }
         }
