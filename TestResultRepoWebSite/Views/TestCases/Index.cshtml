@@ -1,10 +1,25 @@
-﻿
+﻿@using TestResultRepoModels
+
 @{
     ViewBag.Title = "Index";
+    TestCase testCase = ViewBag.testCase;
 }
 
-<h2>Index</h2>
-<p>This is the TestCase View</p>
-<p>The Id is: @ViewBag.TestCaseId</p>
-<p>The name is: @ViewBag.TestCaseName</p>
+<div id="testCase" style="margin-top: 50px">
+    @Html.Action("RenderTestCaseCard", "TestCases", new { testCase = ViewBag.testCase })
+</div>
 
+<div>
+    <div class="row">
+        <div class="col-sm-12 text-center" style="margin-top: 50px; margin-bottom: 50px">
+            <h1>History</h1>
+        </div>
+    </div>
+</div>
+
+<div id="historicalTestCases">
+    @foreach (TestCase tc in ViewBag.testCases)
+    {
+        @Html.Action("RenderTestCaseCard", "TestCases", new { testCase = tc })
+    }
+</div>

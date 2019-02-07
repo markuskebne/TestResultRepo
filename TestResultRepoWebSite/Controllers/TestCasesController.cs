@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoModels;
+using TestResultRepoWebSite.HelperMethods;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -30,18 +31,28 @@ namespace TestResultRepoWebSite.Controllers
             if (testCase != null)
             {
                 ViewBag.testCase = testCase;
-                ViewBag.Message = "Here is the TestCase you were looking for:";
-                ViewBag.TestCaseId = id;
-
                 ViewBag.TestCaseName = testCase.Name;
+
+                var testcases = await TestResultRepoApiHelper.GetTestCasesByName(testCase.Name);
+                var orderedTestCases = testcases.OrderByDescending(tc => tc.EndTime);
+
+                ViewBag.testCases = orderedTestCases;
             }
             else
             {
                 ViewBag.Message = "No such TestCase found.";
             }
 
-            return View("TestCaseCard", testCase);
+            return View();
+            //return View("TestCaseCard", testCase);
         }
+
+        public ActionResult RenderTestCaseCard(TestCase testCase, bool showDate = true)
+        {
+            ViewBag.showDate = showDate;
+            return PartialView("TestCaseCard", testCase);
+        }
+
 
         private List<GroupedTestCases> getGroupedTestCases(List<TestCase> testCases)
         {
@@ -65,4 +76,5 @@ namespace TestResultRepoWebSite.Controllers
             return groupedTestCases;
         }
     }
+
 }
