@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
+using TestResultRepoWebSite.Models;
 
 namespace TestResultRepoWebSite.Controllers
 {
@@ -52,31 +51,31 @@ namespace TestResultRepoWebSite.Controllers
             return View();
         }
 
-        public class TestCaseFailure
-        {
-            public TestCaseFailure(Failure failure, TestCase testCase)
-            {
-                Failure = failure;
-                TestCase = testCase;
-            }
+        //public class TestCaseFailure
+        //{
+        //    public TestCaseFailure(Failure failure, TestCase testCase)
+        //    {
+        //        Failure = failure;
+        //        TestCase = testCase;
+        //    }
 
-            public Failure Failure { get; set; }
+        //    public Failure Failure { get; set; }
 
-            public TestCase TestCase { get; set; }
-        }
+        //    public TestCase TestCase { get; set; }
+        //}
 
-        public class FailureGroup
-        {
-            public FailureGroup(List<TestCaseFailure> failures, string name)
-            {
-                Failures = failures;
-                Name = name;
-            }
+        //public class FailureGroup
+        //{
+        //    public FailureGroup(List<TestCaseFailure> failures, string name)
+        //    {
+        //        Failures = failures;
+        //        Name = name;
+        //    }
 
-            public List<TestCaseFailure> Failures { get; set; }
+        //    public List<TestCaseFailure> Failures { get; set; }
 
-            public string Name { get; set; }
-        }
+        //    public string Name { get; set; }
+        //}
 
     }
 }

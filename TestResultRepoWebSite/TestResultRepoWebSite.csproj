@@ -150,6 +150,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AnalyzeController.cs" />
+    <Compile Include="Controllers\CommonErrorMessagesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestCaseCardController.cs" />
     <Compile Include="Controllers\TestCaseGroupListController.cs" />
@@ -162,6 +163,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperMethods\TestResultRepoApiHelper.cs" />
+    <Compile Include="Models\FailureGroup.cs" />
+    <Compile Include="Models\TestCaseFailure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -263,10 +266,11 @@
     <Content Include="Views\Shared\TestSuiteCardList.cshtml" />
     <Content Include="Views\TestRuns\Latest.cshtml" />
     <Content Include="Views\Analyze\Index.cshtml" />
+    <Content Include="Views\Shared\CommonErrorMessagesView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\CommonErrorMessages\" />
     <Folder Include="Views\TestCaseCard\" />
     <Folder Include="Views\TestCaseCollection\" />
     <Folder Include="Views\TestSuiteCard\" />
