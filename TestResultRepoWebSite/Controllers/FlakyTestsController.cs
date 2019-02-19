@@ -28,7 +28,7 @@ namespace TestResultRepoWebSite.Controllers
                 // only use the last 20 
                 var orderedTestCases = testCases
                     .OrderByDescending(tc => tc.EndTime)
-                    .Skip(Math.Max(0, testCases.Count() - 20));
+                    .Take(20);
 
                 
                 FlakyTestsGroup group = new FlakyTestsGroup(orderedTestCases.ToList());
