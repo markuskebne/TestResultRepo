@@ -334,6 +334,25 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
+        public static List<TestCase> GetTestCasesByNameSync(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync($"api/testcases/?name={name}").Result;
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testCases = JsonConvert.DeserializeObject<List<TestCase>>(json);
+
+                return testCases;
+            }
+        }
+
         public static async Task<List<TestCase>> GetTestCasesByCategory(string category)
         {
             using (var client = new HttpClient())
@@ -362,6 +381,25 @@ namespace TestResultRepoWebSite.HelperMethods
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var response = await client.GetAsync("api/testcases/unique");
+
+                if (!response.IsSuccessStatusCode) return null;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<string>>(json).OrderBy(x => x).ToList();
+
+                return testRuns;
+            }
+        }
+
+        public static List<string> GetUniqueTestCaseNamesSync()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(Baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync("api/testcases/unique").Result;
 
                 if (!response.IsSuccessStatusCode) return null;
 

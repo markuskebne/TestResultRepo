@@ -5121,6 +5121,7 @@ input[type="button"].btn-block {
     border-style: solid;
     border-width: 0.15rem;
     margin: 0rem 0.05rem;
+    min-width: 28px;
 }
 
 .badge:empty {

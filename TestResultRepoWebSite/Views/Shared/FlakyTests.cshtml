@@ -1,0 +1,76 @@
+﻿@using TestResultRepoModels
+@using TestResultRepoWebSite.Models
+
+@{
+    List<FlakyTestsGroup> flakyTests = Model;
+    string resultColor;
+}
+
+
+
+<div id="flakyTests">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Flaky Tests</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap">
+        <div style="width: 100%;">
+            @{
+                foreach (FlakyTestsGroup group in flakyTests)
+                {
+                    switch (group.Stability)
+                    {
+                        case Result.Inconclusive:
+                            resultColor = "bg-warning";
+                            break;
+                        case Result.Passed:
+                            resultColor = "bg-success";
+                            break;
+                        case Result.Failed:
+                            resultColor = "bg-danger";
+                            break;
+                        default:
+                            resultColor = "bg-warning";
+                            break;
+                    }
+
+                    Guid idGuid = Guid.NewGuid();
+                    <div class="flakyTestGroupCard">
+                        <div id="@("accordion_" + idGuid)">
+                            <div class="card text-white">
+                                <div class="card-header d-flex flex-row @resultColor" id="@("heading_" + idGuid)" data-toggle="collapse" data-target="@("#collapse_" + idGuid)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid)">
+                                    <div class="truncate ">
+                                        <div>@group.Name</div>
+                                    </div>
+                                    <span class="badge badge-success ml-auto" style="min-width: 28px">@group.Passed</span>
+                                    <span class="badge badge-danger ml-auto" style="min-width: 28px">@group.Failed</span>
+                                </div>
+                                <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            @foreach (TestCase testCase in group.TestCases as ICollection<TestCase>)
+                                            {
+                                                Html.RenderAction("RenderViewFromTestCase", "TestCaseCard", new { testCase = testCase, showDate = true });
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#yourContainer").load('@Url.Action("FooterLatestBlogPosts", "Common")')
+    });
+</script>
