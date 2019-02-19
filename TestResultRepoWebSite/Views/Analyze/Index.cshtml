@@ -43,14 +43,6 @@
         Html.RenderAction("CommonErrorMessages", "CommonErrorMessages", new {testRun});
     }
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 text-center">
-                <h1>Flaky tests</h1>
-            </div>
-        </div>
-    </div>
-
     @{
         Html.RenderAction("FlakyTests", "FlakyTests");
     }
