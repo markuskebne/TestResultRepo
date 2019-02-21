@@ -1,20 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
-using TestResultRepoWebSite.Models;
 
 namespace TestResultRepoWebSite.Controllers
 {
     public class AnalyzeController : Controller
     {
         // GET: Analyze
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string id = null)
         {
-            var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun();
-            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(latestTestRun._Id);
+            ViewBag.ShowFlakyTests = false;
+
+            if (id == null)
+            {
+                var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun();
+                id = latestTestRun._Id;
+                ViewBag.ShowFlakyTests = true;
+            }
+
+            var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(id);
 
             var failingSuites = testRun.TestSuites.FindAll(ts => ts.Result == Result.Failed).ToList();
             foreach (var suite in failingSuites)

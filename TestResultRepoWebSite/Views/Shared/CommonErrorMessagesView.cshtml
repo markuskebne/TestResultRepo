@@ -32,33 +32,7 @@
                                         <ul class="list-group list-group-flush">
                                             @foreach (TestCaseFailure failure in group as ICollection<TestCaseFailure>)
                                             {
-                                                Guid idGuid2 = Guid.NewGuid();
-                                                <div class="failureCard">
-                                                    <div id="@("accordion_" + idGuid2)">
-                                                        <div class="card text-white">
-                                                            <div class="card-header cardlisttext d-flex flex-row bg-danger" id="@("heading_" + idGuid2)" data-toggle="collapse" data-target="@("#collapse_" + idGuid2)" aria-expanded="true" aria-controls="@("#collapse_" + idGuid2)">
-                                                                <div class="truncate">
-                                                                    <a>@failure.TestCase.Name</a>
-                                                                </div>
-                                                            </div>
-                                                            <div id="@("collapse_" + idGuid2)" class="collapse" aria-labelledby="@("heading_" + idGuid2)" data-parent="@("#accordion_" + idGuid2)">
-                                                                <div class="card-body">
-                                                                    <ul class="list-group list-group-flush carddetailtext">
-                                                                        @if (@failure.TestCase.Failure.Message != "")
-                                                                        {
-                                                                            <p>@failure.TestCase.Failure.Message</p>
-                                                                        }
-
-                                                                        @if (@failure.TestCase.Failure.StackTrace != "")
-                                                                        {
-                                                                            <p>@failure.TestCase.Failure.StackTrace</p>
-                                                                        }
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                Html.RenderAction("RenderViewFromTestCase", "TestCaseCard", new { testCase = failure.TestCase, showDate = true });
                                             }
                                         </ul>
                                     </div>
