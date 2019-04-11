@@ -1,5 +1,4 @@
-﻿@using System.Text.RegularExpressions
-@using TestResultRepoModels
+﻿@using TestResultRepoModels
 
 @{
     TestCase testcase = @Model;
@@ -39,17 +38,19 @@
                 <div id="@("collapse_" + idGuid)" class="collapse" aria-labelledby="@("heading_" + idGuid)" data-parent="@("#accordion_" + idGuid)">
                     <div class="card-body">
 
+                        <button onclick="copyToClipboard('@("#stacktrace_" + idGuid)')" type="button" class="btn btn-primary btn-sm">
+                            Copy to clipboard
+                        </button>
 
                         <ul class="list-group list-group-flush carddetailtext">
-                            @if (@testcase.Failure.Message != "")
-                            {
-                                <p>@testcase.Failure.Message</p>
+                            @{
+                                string stackTrace = testcase.Failure.Message + 
+                                                    "\n\n" + 
+                                                    testcase.Failure.StackTrace.Replace(" at", Environment.NewLine + "at");
                             }
 
-                            @if (@testcase.Failure.StackTrace != "")
-                            {
-                                <p style="white-space: pre-line">@testcase.Failure.StackTrace.Replace(" at", Environment.NewLine + "at")</p>
-                            }
+                            <p id="@("stacktrace_" + idGuid)" style="white-space: pre-line">@stackTrace</p>
+
                         </ul>
                     </div>
                 </div>
