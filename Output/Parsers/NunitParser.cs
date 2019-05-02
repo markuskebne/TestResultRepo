@@ -28,6 +28,11 @@ namespace Output.Parsers
             report.Duration =
                 (DateTime.Parse(report.EndTime) - DateTime.Parse(report.StartTime)).ToString(@"hh\:mm\:ss");
 
+            report.Category = doc.Root
+                .Element("filter")
+                .Element("cat")
+                .Value;
+
             // TestSuites
             var suites = doc
                 .Descendants("test-suite")

@@ -20,5 +20,8 @@ namespace TestResultRepoModels
         [BsonElement("testsuites")]
         public List<string> TestSuiteIds { get; set; }
 
+        [BsonElement("category")]
+        public string Category { get; set; }
+
     }
 }
