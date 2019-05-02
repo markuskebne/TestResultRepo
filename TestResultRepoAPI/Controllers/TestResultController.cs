@@ -62,10 +62,13 @@ namespace TestResultRepoAPI.Controllers
         }
 
         [HttpGet]
-        [Route("testrun/latest")]
-        public HttpResponseMessage GetLatestTestRun()
+        [Route("testrun/latest/{category?}")]
+        public HttpResponseMessage GetLatestTestRun(string category = null)
         {
-            var latestTestRun = MongoDb.GetLatestTestRun();
+            var latestTestRun = category == null 
+                ? MongoDb.GetLatestTestRun() 
+                : MongoDb.GetLatestTestRun(category);
+
             var json = JsonConvert.SerializeObject(latestTestRun);
             return new HttpResponseMessage()
             {

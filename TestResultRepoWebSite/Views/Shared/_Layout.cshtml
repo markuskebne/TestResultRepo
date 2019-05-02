@@ -19,14 +19,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/testruns">TestRuns</a>
                 </li>
-                <li class="nav-item">
+                @*<li class="nav-item">
                     <a class="nav-link" href="/testsuites">TestSuites</a>
+                </li>*@
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category="System tests"})">Latest System Test</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/testcases">TestCases</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns")">Latest TestRun</a>
+                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category="Regression tests"}))">Latest Regression Test</a>
                 </li>
             </ul>
         </div>

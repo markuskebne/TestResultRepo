@@ -112,7 +112,7 @@ namespace TestResultRepoWebSite.HelperMethods
             }
         }
 
-        public static async Task<TestRun> GetLatestTestRun()
+        public static async Task<TestRun> GetLatestTestRun(string category = null)
         {
             using (var client = new HttpClient())
             {
@@ -120,7 +120,11 @@ namespace TestResultRepoWebSite.HelperMethods
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync($"api/testrun/latest");
+                var requestUrl = category == null 
+                    ? "api/testrun/latest" 
+                    : $"api/testrun/latest/{category}";
+
+                var response = await client.GetAsync($"{requestUrl}");
 
                 if (!response.IsSuccessStatusCode) return null;
                 var json = response.Content.ReadAsStringAsync().Result;

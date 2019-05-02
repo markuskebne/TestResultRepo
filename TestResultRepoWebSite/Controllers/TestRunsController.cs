@@ -48,9 +48,9 @@ namespace TestResultRepoWebSite.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Latest()
+        public async Task<ActionResult> Latest(string category = null)
         {
-            var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun();
+            var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun(category);
             var testRun = await TestResultRepoApiHelper.GetTestRunWithChildren(latestTestRun._Id);
             PopulateViewBag(testRun);
             return View();

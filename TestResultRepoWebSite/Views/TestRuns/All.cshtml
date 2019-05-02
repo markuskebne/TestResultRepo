@@ -12,21 +12,23 @@
     <tr>
         <th>Name</th>
         <th>Date</th>
+        <th>Category</th>
         <th>Result</th>
         <th>Passed</th>
         <th>Failed</th>
     </tr>
     @foreach (var testRun in ViewBag.testRuns as ICollection<TestRun>)
     {
-        <tr>
-            <td>
-                <a href="?id=@testRun._Id">@testRun.Name</a>
-            </td>
-            <td>@testRun.StartTime</td>
-            <td>@testRun.Result</td>
-            <td>@testRun.Passed</td>
-            <td>@testRun.Failed</td>
-        </tr>
+    <tr>
+        <td>
+            <a href="?id=@testRun._Id">@testRun.Name</a>
+        </td>
+        <td>@testRun.StartTime</td>
+        <td>@testRun.Category</td>
+        <td>@testRun.Result</td>
+        <td>@testRun.Passed</td>
+        <td>@testRun.Failed</td>
+    </tr>
     }
 </table>
 
