@@ -131,8 +131,13 @@ namespace Output.Parsers
                             ? tc.Element("failure")?.Element("stack-trace") != null
                                 ? tc.Element("failure")?.Element("stack-trace")?.Value.Trim()
                                 : ""
+                            : "",
+                        Output = tc.Element("output") != null
+                            ? tc.Element("output") != null
+                                ? tc.Element("output")?.Value.Trim()
+                                : ""
                             : ""
-                    };
+                };
 
 
                     test.Failure = testCaseFailure;
