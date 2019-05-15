@@ -44,12 +44,14 @@
 
                         <ul class="list-group list-group-flush carddetailtext">
                             @{
-                                string stackTrace = testcase.Failure.Message + 
-                                                    "\n\n" + 
+                                string stackTrace = testcase.Failure.Message +
+                                                    "\n\n" +
                                                     testcase.Failure.StackTrace.Replace(" at", Environment.NewLine + "at");
                             }
 
                             <p id="@("stacktrace_" + idGuid)" style="white-space: pre-line">@stackTrace</p>
+
+                            <p style="white-space: pre-line">@testcase.Failure.Output</p>
 
                         </ul>
                     </div>
