@@ -15,8 +15,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestResultRepoWebSite", "Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09C84D38-AC78-4192-83A0-3CDFF46A8054}"
 	ProjectSection(SolutionItems) = preProject
-		Info\CurrentSystemOverview.PNG = Info\CurrentSystemOverview.PNG
-		Info\SystemOverview.PNG = Info\SystemOverview.PNG
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_825.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_825.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_826.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_826.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_827.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_827.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_828.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_828.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_829.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_829.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_830.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_830.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_831.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_831.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_832.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_832.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_833.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_833.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_834.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_834.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_835.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_835.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_836.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_836.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_837.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_837.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_838.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_838.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_839.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_839.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_840.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_840.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_841.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_841.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_842.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_842.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_843.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_843.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_844.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_844.xml
+		Info\Nunit3_Test_Result_Output_Examples\TestResult_845.xml = Info\Nunit3_Test_Result_Output_Examples\TestResult_845.xml
 	EndProjectSection
 EndProject
 Global
