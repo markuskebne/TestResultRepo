@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,6 +19,9 @@ namespace TestResultRepoConsole
 
         static void Main(string[] args)
         {
+
+            CheckConnection();
+            
             if (args.Length == 1)
             {
                 // If argument is a nunit xml-file -> parse and save results
@@ -107,6 +111,36 @@ namespace TestResultRepoConsole
                 }              
             }
 
+        }
+
+        private static void CheckConnection()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(APIBaseUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                Console.WriteLine("Base adress: " + client.BaseAddress);
+                Console.WriteLine("Endpoint: api/healthcheck");
+                Console.WriteLine("Checking...");
+
+                try
+                {
+                    var response = client.GetAsync("api/healthcheck");
+
+                    if (response.Result.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("The request was sent successfully!");
+                    }
+
+                    Console.WriteLine($"Response code: {response.Result.StatusCode}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Something went wrong when posting the result\nException: " + e);
+                }
+            }
         }
     }
 }
