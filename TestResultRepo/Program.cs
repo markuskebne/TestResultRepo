@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 using Output.Parsers;
+using TestResultRepoIO;
 using TestResultRepoModels;
 
 namespace TestResultRepoConsole
@@ -17,7 +18,7 @@ namespace TestResultRepoConsole
 
         static void Main(string[] args)
         {
-        if (args.Length == 1)
+            if (args.Length == 1)
             {
                 // If argument is a nunit xml-file -> parse and save results
                 // ReSharper disable once PossibleNullReferenceException
@@ -25,7 +26,8 @@ namespace TestResultRepoConsole
                 {
                     var filename = args[0];
                     var testRun = NunitParser.Parse(filename);
-                    SaveTestRun(testRun);
+                    MongoDb.SaveTestRun(testRun);
+                    //SaveTestRun(testRun);
                 }
 
                 // If argument is a folder
@@ -42,7 +44,8 @@ namespace TestResultRepoConsole
                             if (Path.GetExtension(file).ToLower().Contains("xml"))
                             {
                                 var testRun = NunitParser.Parse(file);
-                                SaveTestRun(testRun);
+                                MongoDb.SaveTestRun(testRun);
+                                //SaveTestRun(testRun);
                                 folderContainedXmlFiles = true;
                             }
                         }
@@ -91,7 +94,7 @@ namespace TestResultRepoConsole
                 {
                     var response = client.PostAsync("api/testrun/save", content);
 
-                    if (!response.Result.IsSuccessStatusCode)
+                    if (response.Result.IsSuccessStatusCode)
                     {
                         Console.WriteLine("The request was sent successfully!");
                     }
