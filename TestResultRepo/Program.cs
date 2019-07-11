@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 using Output.Parsers;
-using TestResultRepoIO;
 using TestResultRepoModels;
 
 namespace TestResultRepoConsole
@@ -15,11 +13,10 @@ namespace TestResultRepoConsole
     class Program
     {
         // The API endpoint url is configured in the app.config
-        private static string APIBaseUrl = ConfigurationManager.AppSettings["APIBaseUrl"];
+        private static readonly string ApiBaseUrl = ConfigurationManager.AppSettings["APIBaseUrl"];
 
         static void Main(string[] args)
         {
-
             CheckConnection();
             
             if (args.Length == 1)
@@ -30,8 +27,7 @@ namespace TestResultRepoConsole
                 {
                     var filename = args[0];
                     var testRun = NunitParser.Parse(filename);
-                    MongoDb.SaveTestRun(testRun);
-                    //SaveTestRun(testRun);
+                    SaveTestRun(testRun);
                 }
 
                 // If argument is a folder
@@ -48,15 +44,16 @@ namespace TestResultRepoConsole
                             if (Path.GetExtension(file).ToLower().Contains("xml"))
                             {
                                 var testRun = NunitParser.Parse(file);
-                                MongoDb.SaveTestRun(testRun);
-                                //SaveTestRun(testRun);
+                                SaveTestRun(testRun);
                                 folderContainedXmlFiles = true;
                             }
                         }
 
                         if (!folderContainedXmlFiles)
                         {
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("[Error] Folder does not contain any test results.");
+                            Console.ForegroundColor = ConsoleColor.White;
                             WriteUsageInfo();
                         }
                     }
@@ -70,7 +67,9 @@ namespace TestResultRepoConsole
 
             else
             {
-                Console.WriteLine("[Error] Incorrect number of arguments.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("[Error] Incorrect number of arguments.\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 WriteUsageInfo();
             }
             
@@ -79,8 +78,15 @@ namespace TestResultRepoConsole
 
         private static void WriteUsageInfo()
         {
-            Console.WriteLine("[INFO] Usage 1:  TestResultRepo.exe \"path-to-result-file\"");
-            Console.WriteLine("[INFO] Usage 2:  TestResultRepo.exe \"path-to-folder-containing-multiple-result-files\"");
+            Console.WriteLine("**************** Application usage *********************\n" +
+                              "\n" +
+                              "Running the application without argument will run a connection check and display application usage info.\n" +
+                              "\n" +
+                              "Giving a testresult file (in .xml) as an argument will parse the file and send the data to the API endpoint given in TestResultRepoConsole.exe.config\n" +
+                              "\n" +
+                              "Giving a folder containing testresult files (in .xml) as an argument will parse all files and send the data to the API endpoint given in TestResultRepoConsole.exe.config\n" +
+                              "\n" +
+                              "**********************************************************\n");
             Console.ReadLine();
         }
 
@@ -88,7 +94,9 @@ namespace TestResultRepoConsole
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(APIBaseUrl);
+                var PostTestRunEndpoint = "api/testrun/save";
+
+                client.BaseAddress = new Uri(ApiBaseUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -96,18 +104,22 @@ namespace TestResultRepoConsole
 
                 try
                 {
-                    var response = client.PostAsync("api/testrun/save", content);
+                    var response = client.PostAsync(PostTestRunEndpoint, content);
 
                     if (response.Result.IsSuccessStatusCode)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("The request was sent successfully!");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                     Console.WriteLine($"Response code: {response.Result.StatusCode}");
                 }
                 catch (Exception e)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Something went wrong when posting the result\nException: " + e);
+                    Console.ForegroundColor = ConsoleColor.White;
                 }              
             }
 
@@ -117,29 +129,42 @@ namespace TestResultRepoConsole
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(APIBaseUrl);
+                var HealthCheckEndpoint = "api/healthcheck";
+
+                client.BaseAddress = new Uri(ApiBaseUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                Console.WriteLine("Base adress: " + client.BaseAddress);
-                Console.WriteLine("Endpoint: api/healthcheck");
-                Console.WriteLine("Checking...");
+                Console.WriteLine("**************** Verifying connection *********************\n" +
+                                  "\n" +
+                                  $"Base adress: {client.BaseAddress}\n" +
+                                  $"HealthCheck endpoint {HealthCheckEndpoint}\n" +
+                                  $"Endpoint: {client.BaseAddress}{HealthCheckEndpoint}\n" +
+                                  "\n" +
+                                  "Checking...\n");
 
                 try
                 {
-                    var response = client.GetAsync("api/healthcheck");
+                    var response = client.GetAsync(HealthCheckEndpoint);
 
                     if (response.Result.IsSuccessStatusCode)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("The request was sent successfully!");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                     Console.WriteLine($"Response code: {response.Result.StatusCode}");
                 }
-                catch (Exception e)
+                catch (Exception exception)
                 {
-                    Console.WriteLine("Something went wrong when posting the result\nException: " + e);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Something went wrong when posting the result\nException: ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(exception);
                 }
+
+                Console.WriteLine("\n**********************************************************\n");
             }
         }
     }
