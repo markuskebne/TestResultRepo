@@ -12,26 +12,36 @@ namespace Output.Parsers
         public static TestRun Parse(string filepath)
         {
             var doc = XDocument.Load(filepath);
+
             var filename = Path.GetFileNameWithoutExtension(filepath);
 
-            var report = new TestRun();
+            var report = new TestRun
+            {
+                Name = filename,
+                TestCaseCount = doc.Descendants("test-case").Count(),
+                Passed = GetPassed(doc.Root),
+                Failed = GetFailed(doc.Root),
+                Inconclusive = GetInconclusive(doc.Root),
+                Skipped = GetSkipped(doc.Root),
+                StartTime = GetStartTime(doc.Root),
+                EndTime = GetEndTime(doc.Root)
+            };
 
-            report.Name = filename;
-            report.TestCaseCount = doc.Descendants("test-case").Count();
-            report.Passed = GetPassed(doc.Root);
-            report.Failed = GetFailed(doc.Root);
-            report.Inconclusive = GetInconclusive(doc.Root);
-            report.Skipped = GetSkipped(doc.Root);
+            report.Duration = (DateTime.Parse(report.EndTime) - DateTime.Parse(report.StartTime)).ToString(@"hh\:mm\:ss");
 
-            report.StartTime = GetStartTime(doc.Root);
-            report.EndTime = GetEndTime(doc.Root);
-            report.Duration =
-                (DateTime.Parse(report.EndTime) - DateTime.Parse(report.StartTime)).ToString(@"hh\:mm\:ss");
-
-            report.Category = doc.Root
-                .Element("filter")
-                .Element("cat")
-                .Value;
+            var filterElement = doc.Root.Element("filter");
+            switch (filterElement.Descendants().First().Name.LocalName)
+            {
+                case "namespace":
+                    report.Category = filterElement.Element("namespace").Value;
+                    break;
+                case "cat":
+                    report.Category = filterElement.Element("cat").Value;
+                    break;
+                default:
+                    report.Category = "Unknown";
+                    break;
+            }
 
             // TestSuites
             var suites = doc
