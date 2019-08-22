@@ -271,6 +271,7 @@
     <Content Include="Views\Analyze\Index.cshtml" />
     <Content Include="Views\Shared\CommonErrorMessagesView.cshtml" />
     <Content Include="Views\Shared\FlakyTests.cshtml" />
+    <Content Include="Views\Analyze\Latest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -41,5 +41,12 @@ namespace TestResultRepoWebSite.Controllers
 
             return View();
         }
+
+        public async Task<ActionResult> Latest(string category = null)
+        {
+            var latestTestRun = await TestResultRepoApiHelper.GetLatestTestRun(category);
+            return await Index(latestTestRun._Id);
+            //return RedirectToAction("Index", "TestRuns", new {id = testRun._Id});
+        }
     }
 }
