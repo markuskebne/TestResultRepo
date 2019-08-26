@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Configuration
+@using System.ServiceModel.Syndication
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -16,33 +18,33 @@
     <div class="container">
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/testruns">TestRuns</a>
-                </li>
-                @*<li class="nav-item">
-            <a class="nav-link" href="/testsuites">TestSuites</a>
-        </li>*@
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category="System tests"})">Latest System Test</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category="Regression tests"})">Latest Regression Test</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category="MWOP"})">Latest MWOP</a>
-                </li>
+                
+                @{
+                    var categoriesString = ConfigurationManager.AppSettings["Categories"].Split(',');
+                    foreach (var category in categoriesString)
+                    {
+                        var trimmedCategory = category.Trim();
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Latest", "TestRuns", new {category = @trimmedCategory})">@trimmedCategory</a>
+                        </li>
+                    }
+                }
             </ul>
         </div>
-        <div class="navbar-collapse collapse">
+        @*<div class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/analyze">Analyze Latest</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Latest", "Analyze", new {category="MWOP"})">Analyze Latest MWOP</a>
-                </li>
+
+                @{
+                    foreach (var category in categoriesString)
+                    {
+                        var trimmedCategory = category.Trim();
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Latest", "Analyze", new {category = @trimmedCategory})">Analyze @trimmedCategory</a>
+                        </li>
+                    }
+                }
             </ul>
-        </div>
+        </div>*@
     </div>
 </div>
 <div class="container body-content col-sm-12">

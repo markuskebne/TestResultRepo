@@ -9,7 +9,7 @@
     <div class="container" style="margin-top: 10px">
         <div class="row">
             <div>
-                @Html.ActionLink("Previous", "Previous", "TestRuns", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("Previous", "Previous", "TestRuns", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
             <div class="col-sm-5 text-center">
                 <h3>@ViewBag.testRun.Name</h3>
@@ -18,7 +18,7 @@
                 <h3>@testRun.EndTime.AsDateTime()</h3>
             </div>
             <div class="ml-auto">
-                @Html.ActionLink("Next", "Next", "TestRuns", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("Next", "Next", "TestRuns", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
     <div class="container" style="margin-top: 10px">
         <div class="row">
             <div class="col-sm-12 text-center">
-                @Html.ActionLink("Analyze", "Index", "Analyze", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("Analyze", "Index", "Analyze", routeValues: new { id = ViewBag.testRun._Id.ToString() }, htmlAttributes: new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>
