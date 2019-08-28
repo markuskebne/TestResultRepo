@@ -11,7 +11,7 @@ namespace TestResultRepoWebSite.Controllers
         // GET: Analyze
         public async Task<ActionResult> Index(string id = null)
         {
-            ViewBag.ShowFlakyTests = false;
+            ViewBag.ShowFlakyTests = true;
 
             if (id == null)
             {
