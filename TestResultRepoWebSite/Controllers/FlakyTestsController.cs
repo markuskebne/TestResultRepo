@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TestResultRepoModels;
 using TestResultRepoWebSite.HelperMethods;
 using TestResultRepoWebSite.Models;
 
@@ -10,12 +11,22 @@ namespace TestResultRepoWebSite.Controllers
     public class FlakyTestsController : Controller
     {
         // GET: FlakyTests
-        public ActionResult FlakyTests()
+        public ActionResult FlakyTests(TestRun testRun)
         {
             List<FlakyTestsGroup> flakyTestsGroups = new List<FlakyTestsGroup>();
 
-            // Get testcases grouped by name
-            List<string> uniqueTestCaseNamesList = TestResultRepoApiHelper.GetUniqueTestCaseNamesSync();
+            List<string> uniqueTestCaseNamesList = new List<string>();
+
+            foreach (var suite in testRun.TestSuites)
+            {
+                foreach (var testCase in suite.TestCases)
+                {
+                    if (testCase.Result != Result.Skipped)
+                    {
+                        uniqueTestCaseNamesList.Add(testCase.Name);
+                    }  
+                }
+            }
 
             foreach (var uniqueName in uniqueTestCaseNamesList)
             {

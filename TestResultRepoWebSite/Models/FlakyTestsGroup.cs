@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.ApplicationInsights.DataContracts;
 using TestResultRepoModels;
 
 namespace TestResultRepoWebSite.Models
@@ -11,8 +13,9 @@ namespace TestResultRepoWebSite.Models
             Name = testCases.FirstOrDefault().Name;
             TestCases = testCases;
             Passed = testCases.Count(tc => tc.Result == Result.Passed);
-            Failed = testCases.Count(tc => tc.Result != Result.Passed);
-            FailureFactor = (double)Failed / (double)testCases.Count;
+            Failed = testCases.Count(tc => tc.Result == Result.Failed);
+            var Sum = Passed + Failed;
+            FailureFactor = (double)Failed/(double)Sum;
 
             Stability = FailureFactor >= 0.75 ? Result.Failed : FailureFactor <= 0.1 ? Result.Passed : Result.Inconclusive;
         }

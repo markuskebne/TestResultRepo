@@ -47,7 +47,7 @@
     @{
         if (ViewBag.ShowFlakyTests)
         {
-            Html.RenderAction("FlakyTests", "FlakyTests");
+            Html.RenderAction("FlakyTests", "FlakyTests", testRun);
         }
     }
 
