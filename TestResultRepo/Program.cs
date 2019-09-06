@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,6 +23,10 @@ namespace TestResultRepoConsole
             
             if (args.Length == 1)
             {
+                if (args[0] == "delete")
+                {
+                    DeleteTestRuns();
+                }
                 // If argument is a nunit xml-file -> parse and save results
                 // ReSharper disable once PossibleNullReferenceException
                 if (Path.GetExtension(args[0]).ToLower().Contains("xml"))
@@ -74,6 +80,7 @@ namespace TestResultRepoConsole
             }
             
             Console.WriteLine("End program");
+            Console.ReadLine();
         }
 
         private static void WriteUsageInfo()
@@ -85,6 +92,8 @@ namespace TestResultRepoConsole
                               "Giving a testresult file (in .xml) as an argument will parse the file and send the data to the API endpoint given in TestResultRepoConsole.exe.config\n" +
                               "\n" +
                               "Giving a folder containing testresult files (in .xml) as an argument will parse all files and send the data to the API endpoint given in TestResultRepoConsole.exe.config\n" +
+                              "\n" +
+                              "Giving 'delete' as the first argument will delete all data that is older than 2 months\n" +
                               "\n" +
                               "**********************************************************\n");
             Console.ReadLine();
@@ -165,6 +174,70 @@ namespace TestResultRepoConsole
                 }
 
                 Console.WriteLine("\n**********************************************************\n");
+            }
+        }
+
+        private static void DeleteTestRuns()
+        {
+            var GetTestRunsEndpoint = "api/testruns";
+            var DeleteRunsEndpoint = "api/testrun/delete";
+            IEnumerable<TestRun> testRunsToDelete;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("!!!!    Warning    !!!!\n");
+            Console.Write("All test-data older than 2 months will be deleted.\n");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Are you sure? Type 'yes' to proceed.\n");
+            
+            var userResponse = Console.ReadLine();
+
+            if (userResponse != null && userResponse.ToLower() != "yes")
+            {
+                Console.WriteLine("Cancelling");
+                return;
+            }
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ApiBaseUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync(GetTestRunsEndpoint).Result;
+
+                var json = response.Content.ReadAsStringAsync().Result;
+                var testRuns = JsonConvert.DeserializeObject<List<TestRun>>(json).OrderBy(x => x.Name).ToList();
+                var deleteTestRunsBefore = DateTime.Now.AddMonths(-2);
+                testRunsToDelete = testRuns.Where(tr => Convert.ToDateTime(tr.StartTime) < deleteTestRunsBefore).OrderBy(x => x.StartTime);                
+            }
+
+            foreach (var testRun in testRunsToDelete)
+            {
+                using (var client = new HttpClient())
+                {
+                    Console.WriteLine($"Deleting TestRun {testRun.Name} - {testRun._Id}");
+
+                    client.BaseAddress = new Uri(ApiBaseUrl);
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var response = client.DeleteAsync($"{DeleteRunsEndpoint}/{testRun._Id}").Result;
+
+                    Console.WriteLine($"Response status code: {response.StatusCode} - {testRun._Id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Delete OK");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{response.Content.ReadAsStringAsync()}");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
             }
         }
     }
